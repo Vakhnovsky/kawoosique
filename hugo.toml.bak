@@ -1,0 +1,10 @@
+baseURL = 'https://vakhnovsky.github.io/KAWOOSIQUE/'
+locale = 'ru-ru'
+title = 'KAWOOSIQUE'
+theme = 'PaperMod'
+
+[params]
+    defaultTheme = "dark"
+    ShowReadingTime = true
+    ShowShareButtons = false
+    ShowPostNavLinks = true
