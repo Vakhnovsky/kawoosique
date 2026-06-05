@@ -8,3 +8,13 @@ theme = 'PaperMod'
     ShowReadingTime = true
     ShowShareButtons = false
     ShowPostNavLinks = true
+    # Настройка для отображения постов на главной странице в PaperMod
+    homeInfoParams = { Title = "KAWOOSIQUE", Content = "Добро пожаловать в мой блог" }
+
+[menu]
+    # Добавим пункт меню, чтобы ты всегда мог тыкнуть на список статей напрямую
+    [[menu.main]]
+        identifier = "posts"
+        name = "Заметки"
+        url = "posts/"
+        weight = 10

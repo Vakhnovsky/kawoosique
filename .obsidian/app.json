@@ -1,0 +1,13 @@
+{
+  "userIgnoreFilters": [
+    "public/",
+    "archetypes/",
+    ".git/",
+    ".github/",
+    "resources/",
+    "themes/",
+    "i18n/",
+    "data/",
+    "public"
+  ]
+}
