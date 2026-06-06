@@ -210,13 +210,16 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "795f16c49613f447",
+  "active": "4de1b3bdaf39fbd4",
   "lastOpenFiles": [
+    "content/archives.md",
+    "content/posts/obsidian-template-test.md",
+    "content/search.md",
+    "content/search.md.md",
     "static/avatar.png",
     "static/KAWOOSIQUE SQ LOGO-02.png",
     "content/posts/test-obsidian.md",
     "content/posts/nozh.md",
-    "content/posts/obsidian-template-test.md",
     "Без названия.md",
     "_templates/new post.md",
     "_templates"
