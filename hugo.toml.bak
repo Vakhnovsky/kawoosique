@@ -1,4 +1,4 @@
-baseURL = 'https://vakhnovsky.github.io/KAWOOSIQUE/'
+baseURL = 'https://vakhnovsky.github.io/kawoosique/'
 locale = 'ru-ru'
 title = 'KAWOOSIQUE'
 theme = 'PaperMod'
