@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/posts/obsidian-template-test.md",
+                "file": "content/posts/test-phone.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "obsidian-template-test"
+              "title": "test-phone"
             }
           }
         ],
@@ -212,8 +212,10 @@
   },
   "active": "4de1b3bdaf39fbd4",
   "lastOpenFiles": [
-    "content/archives.md",
     "content/posts/obsidian-template-test.md",
+    "test-phone.md",
+    "content/posts/test-phone.md",
+    "content/archives.md",
     "content/search.md",
     "content/search.md.md",
     "static/avatar.png",
