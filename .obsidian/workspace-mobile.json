@@ -27,7 +27,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "test-phone.md",
+                "file": "content/posts/test-phone.md",
                 "mode": "source",
                 "source": false
               },
@@ -181,10 +181,10 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "a5e3dbc11ba4d6c3",
+  "active": "d6df10a1a84772f8",
   "lastOpenFiles": [
     "content/posts/nozh.md",
-    "test-phone.md",
+    "content/posts/test-phone.md",
     "static/avatar.png",
     "public/tags/index.xml",
     "public/tags/index.html",
