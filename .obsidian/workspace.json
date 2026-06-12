@@ -85,7 +85,7 @@
               "state": {
                 "file": "content/posts/coffee_02.md",
                 "mode": "source",
-                "source": true
+                "source": false
               },
               "icon": "lucide-file",
               "title": "coffee_02"
