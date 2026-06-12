@@ -3,7 +3,7 @@ title: "Ручные кофемолки: Comandante против Timemore"
 date: 2026-06-07T16:08:00+03:00
 draft: false
 cover:
-    image: "images/08.jpg"
+    image: "/images/08.jpg"
 ---
 ### Английский перевод 1914 года, H. Rackham
 

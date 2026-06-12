@@ -3,7 +3,7 @@ title: "Вода для кофе: почему осмоса недостаточ
 date: 2026-06-07T16:05:00+03:00
 draft: false
 cover:
-    image: "images/05.jpg"
+    image: "/images/05.jpg"
 ---
 ### Английский перевод 1914 года, H. Rackham
 

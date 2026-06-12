@@ -83,12 +83,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/posts/coffee_10.md",
+                "file": "content/posts/coffee_02.md",
                 "mode": "source",
-                "source": false
+                "source": true
               },
               "icon": "lucide-file",
-              "title": "coffee_10"
+              "title": "coffee_02"
             }
           }
         ],
@@ -254,14 +254,14 @@
   },
   "active": "313fff5ef52d6559",
   "lastOpenFiles": [
-    "content/posts/coffee_09.md",
-    "content/posts/coffee_08.md",
-    "content/posts/coffee_07.md",
-    "content/posts/coffee_06.md",
-    "content/posts/coffee_05.md",
-    "content/posts/coffee_04.md",
-    "content/posts/coffee_10.md",
     "content/posts/coffee_03.md",
+    "content/posts/coffee_04.md",
+    "content/posts/coffee_05.md",
+    "content/posts/coffee_06.md",
+    "content/posts/coffee_07.md",
+    "content/posts/coffee_08.md",
+    "content/posts/coffee_09.md",
+    "content/posts/coffee_10.md",
     "content/posts/coffee_02.md",
     "content/posts/coffee-in-monaco.md",
     "content/posts/test-phone.md",

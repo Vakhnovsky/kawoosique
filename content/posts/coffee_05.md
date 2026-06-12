@@ -3,7 +3,7 @@ title: "Гид по каппингу: как развивать вкусовой
 date: 2026-06-07T16:04:00+03:00
 draft: false
 cover:
-    image: "images/04.jpg"
+    image: "/images/04.jpg"
 ---
 ### Английский перевод 1914 года, H. Rackham
 

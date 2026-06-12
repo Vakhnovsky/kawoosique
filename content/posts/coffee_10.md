@@ -3,7 +3,7 @@ title: "Холодный экстракт: идеальный рецепт Cold 
 date: 2026-06-07T16:09:00+03:00
 draft: false
 cover:
-    image: "images/09.jpg"
+    image: "/images/09.jpg"
 ---
 ### Английский перевод 1914 года, H. Rackham
 

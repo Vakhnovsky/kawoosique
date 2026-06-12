@@ -3,7 +3,7 @@ title: "Эспрессо дома: как выбрать рожковую маш
 date: 2026-06-07T16:02:00+03:00
 draft: false
 cover:
-    image: "images/02.jpg"
+    image: "/images/02.jpg"
 ---
 ### Английский перевод 1914 года, H. Rackham
 
