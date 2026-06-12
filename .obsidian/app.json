@@ -9,5 +9,8 @@
     "i18n/",
     "data/",
     "public"
-  ]
+  ],
+  "newFileLocation": "folder",
+  "newFileFolderPath": "content/posts",
+  "attachmentFolderPath": "static"
 }
