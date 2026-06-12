@@ -83,12 +83,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/posts/coffee_03.md",
+                "file": "content/posts/coffee_02.md",
                 "mode": "source",
-                "source": false
+                "source": true
               },
               "icon": "lucide-file",
-              "title": "coffee_03"
+              "title": "coffee_02"
             }
           }
         ],
@@ -254,8 +254,18 @@
   },
   "active": "313fff5ef52d6559",
   "lastOpenFiles": [
-    "content/posts/coffee_02.md",
     "content/posts/coffee_03.md",
+    "content/posts/coffee_02.md",
+    "static/images/09.jpg",
+    "static/images/08.jpg",
+    "static/images/07.jpg",
+    "static/images/06.jpg",
+    "static/images/05.jpg",
+    "static/images/04.jpg",
+    "static/images/03.jpg",
+    "static/images/02.jpg",
+    "static/images/01.jpg",
+    "static/images",
     "content/posts/coffee_04.md",
     "content/posts/coffee_05.md",
     "content/posts/coffee_06.md",
@@ -271,7 +281,6 @@
     "content/search.md",
     "content/search.md.md",
     "static/avatar.png",
-    "static/KAWOOSIQUE SQ LOGO-02.png",
     "content/posts/test-obsidian.md",
     "content/posts/nozh.md",
     "_templates/new post.md",
