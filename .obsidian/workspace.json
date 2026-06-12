@@ -83,12 +83,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/posts/coffee_02.md",
+                "file": "content/posts/coffee_03.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "coffee_02"
+              "title": "coffee_03"
             }
           }
         ],
@@ -254,6 +254,7 @@
   },
   "active": "313fff5ef52d6559",
   "lastOpenFiles": [
+    "content/posts/coffee_02.md",
     "content/posts/coffee_03.md",
     "content/posts/coffee_04.md",
     "content/posts/coffee_05.md",
@@ -262,7 +263,6 @@
     "content/posts/coffee_08.md",
     "content/posts/coffee_09.md",
     "content/posts/coffee_10.md",
-    "content/posts/coffee_02.md",
     "content/posts/coffee-in-monaco.md",
     "content/posts/test-phone.md",
     "content/posts/obsidian-template-test.md",
