@@ -20,13 +20,18 @@ theme = 'PaperMod'
     ShowShareButtons = false # выключим лишний мусор под постами
     ShowReadingTime = true # показывать время чтения статьи
     ShowCodeCopyButtons = true # кнопка "скопировать" для блоков кода
+    
+    [params.label]
+    text = "" # Оставляем пустым, чтобы текст не дублировал графику
+    icon = "/main_logo.svg" # Путь к горизонтальному логотипу в шапке
+    iconHeight = 35 # Высота логотипа в пикселях (можно отрегулировать под себя)
 
     # Настройка Главной страницы (Режим Профиля)
     [params.profileMode]
         enabled = true
         title = 'KAWOOSIQUE'
         subtitle = 'Мир сквозь фильтр кофе'
-        imageUrl = 'avatar.png' # Сюда мы позже подставим твою реальную аватарку
+        imageUrl = '/sq_logo.svg' # Сюда мы позже подставим твою реальную аватарку
         imageWidth = 150
         imageHeight = 150
         imageTitle = 'KAWOOSIQUE'
