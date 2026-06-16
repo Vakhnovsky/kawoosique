@@ -1,25 +1,25 @@
 <!DOCTYPE html>
-<html lang="en" dir="auto" data-theme="dark">
+<html lang="en" dir="auto" data-theme="auto">
 
-<head><script src="/KAWOOSIQUE/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=KAWOOSIQUE/livereload" data-no-instant defer></script><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
+<meta name="robots" content="index, follow">
 <title>Posts | KAWOOSIQUE</title>
 <meta name="keywords" content="">
 <meta name="description" content="Posts - KAWOOSIQUE">
-<meta name="author" content="">
-<link rel="canonical" href="http://localhost:1313/KAWOOSIQUE/posts/">
-<link crossorigin="anonymous" href="/KAWOOSIQUE/assets/css/stylesheet.89ca4972ab5e6aaa05e9a0dae0c4bb64b26585bc79e36f5cf33614eea0283abe.css" integrity="sha256-icpJcqteaqoF6aDa4MS7ZLJlhbx5429c8zYU7qAoOr4=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/KAWOOSIQUE/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/KAWOOSIQUE/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/KAWOOSIQUE/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/KAWOOSIQUE/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/KAWOOSIQUE/safari-pinned-tab.svg">
+<meta name="author" content="Vakhnovsky">
+<link rel="canonical" href="http://localhost:1313/posts/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.df85a2f39222ab664a1fc673151ccec36277630a46afa76c43a893b6901e479b.css" integrity="sha256-34Wi85Iiq2ZKH8ZzFRzOw2J3YwpGr6dsQ6iTtpAeR5s=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/KAWOOSIQUE/posts/index.xml" title="rss">
-<link rel="alternate" hreflang="en" href="http://localhost:1313/KAWOOSIQUE/posts/">
+<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/posts/index.xml" title="rss">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/">
 <noscript>
     <style>
         #theme-toggle,
@@ -28,19 +28,75 @@
         }
 
     </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
 </noscript>
 <script>
-    if (localStorage.getItem("pref-theme") === "light") {
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
         document.querySelector("html").dataset.theme = 'light';
     }
 
+</script><meta property="og:url" content="http://localhost:1313/posts/">
+  <meta property="og:site_name" content="KAWOOSIQUE">
+  <meta property="og:title" content="Posts">
+  <meta property="og:locale" content="ru_ru">
+  <meta property="og:type" content="website">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Posts">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "http://localhost:1313/posts/"
+    }
+  ]
+}
 </script>
 </head>
 <body class="list" id="top">
     <header class="header">
     <nav class="header-nav">
         <div class="logo">
-            <a href="http://localhost:1313/KAWOOSIQUE/" accesskey="h" title="KAWOOSIQUE (Alt + H)">KAWOOSIQUE</a>
+            <a href="http://localhost:1313/" accesskey="h" title="  (Alt + H)">
+                <img src="http://localhost:1313/main_logo.svg" alt="" aria-label="logo"
+                    height="45"> </a>
             <div class="logo-switches">
                 <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
@@ -66,8 +122,23 @@
         </div>
         <ul id="menu" class="menu">
             <li>
-                <a href="http://localhost:1313/KAWOOSIQUE/posts/" title="Заметки">
-                    <span class="active">Заметки</span>
+                <a href="http://localhost:1313/posts/" title="Посты">
+                    <span class="active">Посты</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="Теги">
+                    <span>Теги</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="Поиск">
+                    <span>Поиск</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archives/" title="Архив">
+                    <span>Архив</span>
                 </a>
             </li>
         </ul>
@@ -81,31 +152,194 @@
 </header>
 
 <article class="post-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="http://localhost:1313/images/09.jpg" alt="">
+</figure>
   <header class="entry-header">
-    <h2 class="entry-hint-parent">Зачем я ношу нож
+    <h2 class="entry-hint-parent">Холодный экстракт: идеальный рецепт Cold Brew
     </h2>
   </header>
   <div class="entry-content">
-    <p>Старшему участковому
-13-го отделения милиции
-Хохменского района
-г. Колдыбай
-Матерому Ю. К.
-от гр. Хорошего В. Ф.
-ПОЯСНЕНИЯ По факту ношения на собственном теле складного ножа SPYDERCO ENDURA SS AUS-6, общая длина 21,6 см, вес 156 гр., гравировка на рукояти «Хороший Василий Федорович, г. Колдыбай, ул. Овражек,12-1, тел. 42-34-44».
-По факту задержания и вопросов могу пояснить, что вышеуказанное изделие в течение сегодняшнего дня использовалось мной следующим образом:
-8 ч. 00 м. При покидании квартиры обнаружилось отсутствие почтового ключа, пришлось ножом поддевать белеющий в ящике конверт. 8 ч. 01 м. Обрезал щепку на косяке двери подъезда, устав ругаться с придурком-дворником. 8 ч. 02 м. Обрезал нитку на свитере от проклятой щепки. 8 ч. 05 м. Конверт я вскрыл на лавке и узнал, что байдарочный поход отменяется. 8 ч. 10 м. Для выпрямления нервов купил в ларьке пиво, открывал легко, но без радости. «Зачем вы ножик носите с собой?» — спросила продавщица. «А с кем?» — переспросил я. 8 ч. 12 м. Традиционно достал нож, заметив очень злого ротвейлера с хозяйкой без намордника (это к собаке). 8 ч. 15 м. Ввиду непокупки мной нового проездного, мне пришлось ловить такси. Нервный водитель никак не мог завести сбежавшие из-под пресса «Жигули». Спросил, нет ли у меня ножа. Он взял, отрезал что-то, вернул, поехали, пробубнил: «Зачем, интересно, ножик такому молодому?» 8 ч. 25 м. На перекрестке водитель несильно повредил автомобиль КРАЗ. Так как он (водитель) после этого запутался в ремне безопасности, я разрезал его (ремень) ножом. «С зубчиками не мог купить!?» 8 ч. 30 м. Вследствие этого же происшествия у меня образовалась гематома на лице (синяк). Прикладывал нож рукоятью к месту ушиба. Дальше шел на работу пешком. 8 ч. 55 м. При подходе к входной двери в нашу лабораторию обнаружил свободно висящий провод. Обрезал его, так как счел ситуацию травмоопасной. 9 ч. 10 м. Обнаружил, что я только что обрезал собственный телефонный кабель, который не успел закрепить на улице ввиду вчерашнего пикника. Резал и зачищал новый. 10 ч. 00 м. Секретарша начальника Зуля Губкина занесла мою почту — вскрывал конверты с рекламой. «Зачем вы ножик носите?» 10 ч. 20 м. Зуля появилась снова — резал обмоточную ленту на бандероли для начальника. «Зачем вы такой ножик носите?» 11 ч. 10 м. Зуля не отстала, попросила нож, чтобы обрезать затяжку на своих умопомрачительных чулках. Уже не спрашивала. 13 ч. 00 м. Обед — резал хлеб и колбасу для всей лаборатории. Спросили «Зачем…» 4 раза. 13 ч. 05 м. Обед — вскрыл пакет кефира для начальника и пиво для Генки Муфлона. 14 ч. 00 м. Ковырял застрявшую в принтере бумагу. 14 ч. 30 м. Вспомнил про новый проездной, сбегал, купил, после чего переставлял проездной, отгибая пластик футляра ножом. 15 ч. 15 м. Согласно договоренности, стукнул ручкой ножа в стену секретарше, увидев в коридоре шефа. 16 ч. 00 м. Муфлон с хитрым нервным лицом взял нож на 5 минут и исчез на полчаса. 16 ч. 35 м. Выиграл у Муфлона спор об английском слове «паук», показав ему эмблему на ноже — ящик пива стал мой. Сам собой созрел пикник. 18 ч. 10 м. После работы пошел в магазин за порученными мне покупками, где продавщица врала, что у нее нет ножа — отрезать грудинки. Дал свой. 18 ч. 12 м. Заехали на рынок за зеленью. Рожа «зеленого» торговца не приглянулась. Взвесил свой нож — в нем оказалось 200 г. Зелень купил со скидкой. «Зачем нож носыш, а?!» 19 ч. 40 м. Приехали на пикник, и нож пошел по рукам. Резали все подряд, еле нашел. Спросили 3 раза. 20 ч. 10 м. Пьяный муфлон обменял у местных детей на рыбку-уклейку, а я ее потрошил. 20 ч. 30 м. После обильного «суши» выстругал зубочистку. 21 ч. 00 м. Все вместе резали 20-литровую кеггу с пивом — уже несколько неадекватные. «Что, ножик побольше не нашел?» 22 ч. 10 м. Возвращаясь домой, традиционно показал нож владелице ротвейлера. 22 ч. 11 м. На блеск среагировал покупавший пиво сержант ППС, но нож не забрал из-за надписи. Так я узнал, как вызывать милицию. 22 ч. 20 м. Я был идентифицирован на Вашем участке с помощью все той же надписи, что позволило позвонить родной жене. 23 ч. 00 м. А сейчас Вы, тов. Матерый, ковыряете Моим ножом дырку в третьей по счету папке с абсолютно протокольной рожей, и явно хотите задать вопрос — «зачем ты носишь нож?». ТАК Я ГОТОВ ОТВЕТИТЬ!
+    <p>Английский перевод 1914 года, H. Rackham “But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?”
 ...</p>
   </div>
   <footer class="entry-footer">
 
-<span title='2026-06-05 12:00:00 +0000 UTC'>5 июня 2026 г.</span>&nbsp;·&nbsp;<span>4 min</span></footer>
-  <a class="entry-link" aria-label="post link to Зачем я ношу нож" href="http://localhost:1313/KAWOOSIQUE/posts/nozh/"></a>
+<span title='2026-06-07 16:09:00 +0300 EEST'>7 июня 2026 г.</span>&nbsp;·&nbsp;<span>3 min</span>&nbsp;·&nbsp;<span>Vakhnovsky</span></footer>
+  <a class="entry-link" aria-label="post link to Холодный экстракт: идеальный рецепт Cold Brew" href="http://localhost:1313/posts/coffee_10/"></a>
 </article>
+
+<article class="post-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="http://localhost:1313/images/08.jpg" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Ручные кофемолки: Comandante против Timemore
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Английский перевод 1914 года, H. Rackham “But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?”
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-06-07 16:08:00 +0300 EEST'>7 июня 2026 г.</span>&nbsp;·&nbsp;<span>3 min</span>&nbsp;·&nbsp;<span>Vakhnovsky</span></footer>
+  <a class="entry-link" aria-label="post link to Ручные кофемолки: Comandante против Timemore" href="http://localhost:1313/posts/coffee_09/"></a>
+</article>
+
+<article class="post-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="http://localhost:1313/images/07.jpg" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">История кофе: от эфиопских пастухов до третьей волны
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Английский перевод 1914 года, H. Rackham “But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?”
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-06-07 16:07:00 +0300 EEST'>7 июня 2026 г.</span>&nbsp;·&nbsp;<span>3 min</span>&nbsp;·&nbsp;<span>Vakhnovsky</span></footer>
+  <a class="entry-link" aria-label="post link to История кофе: от эфиопских пастухов до третьей волны" href="http://localhost:1313/posts/coffee_08/"></a>
+</article>
+
+<article class="post-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="http://localhost:1313/images/06.jpg" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Феномен Geisha: почему это зерно стоит космических денег
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Английский перевод 1914 года, H. Rackham “But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?”
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-06-07 16:06:00 +0300 EEST'>7 июня 2026 г.</span>&nbsp;·&nbsp;<span>3 min</span>&nbsp;·&nbsp;<span>Vakhnovsky</span></footer>
+  <a class="entry-link" aria-label="post link to Феномен Geisha: почему это зерно стоит космических денег" href="http://localhost:1313/posts/coffee_07/"></a>
+</article>
+
+<article class="post-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="http://localhost:1313/images/05.jpg" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Вода для кофе: почему осмоса недостаточно
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Английский перевод 1914 года, H. Rackham “But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?”
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-06-07 16:05:00 +0300 EEST'>7 июня 2026 г.</span>&nbsp;·&nbsp;<span>3 min</span>&nbsp;·&nbsp;<span>Vakhnovsky</span></footer>
+  <a class="entry-link" aria-label="post link to Вода для кофе: почему осмоса недостаточно" href="http://localhost:1313/posts/coffee_06/"></a>
+</article>
+
+<article class="post-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="http://localhost:1313/images/04.jpg" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Гид по каппингу: как развивать вкусовой ольфакторный опыт
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Английский перевод 1914 года, H. Rackham “But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?”
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-06-07 16:04:00 +0300 EEST'>7 июня 2026 г.</span>&nbsp;·&nbsp;<span>3 min</span>&nbsp;·&nbsp;<span>Vakhnovsky</span></footer>
+  <a class="entry-link" aria-label="post link to Гид по каппингу: как развивать вкусовой ольфакторный опыт" href="http://localhost:1313/posts/coffee_05/"></a>
+</article>
+
+<article class="post-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="http://localhost:1313/images/03.jpg" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Секреты обжарки: от зеленого зерна к первому крэку
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Английский перевод 1914 года, H. Rackham “But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?”
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-06-07 16:03:00 +0300 EEST'>7 июня 2026 г.</span>&nbsp;·&nbsp;<span>3 min</span>&nbsp;·&nbsp;<span>Vakhnovsky</span></footer>
+  <a class="entry-link" aria-label="post link to Секреты обжарки: от зеленого зерна к первому крэку" href="http://localhost:1313/posts/coffee_04/"></a>
+</article>
+
+<article class="post-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="http://localhost:1313/images/02.jpg" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Эспрессо дома: как выбрать рожковую машину
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>
+Английский перевод 1914 года, H. Rackham “But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?”
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-06-07 16:02:00 +0300 EEST'>7 июня 2026 г.</span>&nbsp;·&nbsp;<span>3 min</span>&nbsp;·&nbsp;<span>Vakhnovsky</span></footer>
+  <a class="entry-link" aria-label="post link to Эспрессо дома: как выбрать рожковую машину" href="http://localhost:1313/posts/coffee_03/"></a>
+</article>
+
+<article class="post-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="http://localhost:1313/images/01.jpg" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Кофейная альтернатива: разбор воронки V60
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Классический текст Lorem Ipsum, используемый с XVI века “Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.”
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-06-07 16:01:00 +0300 EEST'>7 июня 2026 г.</span>&nbsp;·&nbsp;<span>2 min</span>&nbsp;·&nbsp;<span>Vakhnovsky</span></footer>
+  <a class="entry-link" aria-label="post link to Кофейная альтернатива: разбор воронки V60" href="http://localhost:1313/posts/coffee_02/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Мираж в Монте-Карло: почему в Монако так сложно найти чашку Specialty кофе
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Монако — это синоним абсолютного люкса. Здесь на квадратный метр приходится больше суперкаров, яхт и часовых бутиков, чем где-либо на планете. Казалось бы, в месте, где культивируется гедонизм, индустрия третьей кофейной волны должна процветать.
+Но реальность бьет наотмашь: если вы ищете не просто дозу кофеина, а чистый, сбалансированный вкус светлой обжарки с понятным терруаром, Монако покажется вам выжженной кофейной пустыней.
+Итальянский синдром Лигурийского побережья Главная беда местного кофейного рынка — глубоко укоренившийся «итальянский синдром». До границы с Италией отсюда рукой подать, и местная гастрономическая культура тотально оккупирована традициями классического эспрессо.
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-06-07 15:20:00 +0300 EEST'>7 июня 2026 г.</span>&nbsp;·&nbsp;<span>2 min</span>&nbsp;·&nbsp;<span>Vakhnovsky</span></footer>
+  <a class="entry-link" aria-label="post link to Мираж в Монте-Карло: почему в Монако так сложно найти чашку Specialty кофе" href="http://localhost:1313/posts/coffee-in-monaco/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="next" href="http://localhost:1313/posts/page/2/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/KAWOOSIQUE/">KAWOOSIQUE</a></span> · 
+        <span>&copy; 2026 <a href="http://localhost:1313/">KAWOOSIQUE</a></span> · 
 
     
     

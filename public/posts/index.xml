@@ -2,17 +2,125 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Posts on KAWOOSIQUE</title>
-    <link>http://localhost:1313/KAWOOSIQUE/posts/</link>
+    <link>http://localhost:1313/posts/</link>
     <description>Recent content in Posts on KAWOOSIQUE</description>
     <generator>Hugo</generator>
     <language>ru-ru</language>
-    <lastBuildDate>Fri, 05 Jun 2026 12:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/KAWOOSIQUE/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 07 Jun 2026 16:09:00 +0300</lastBuildDate>
+    <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Холодный экстракт: идеальный рецепт Cold Brew</title>
+      <link>http://localhost:1313/posts/coffee_10/</link>
+      <pubDate>Sun, 07 Jun 2026 16:09:00 +0300</pubDate>
+      <guid>http://localhost:1313/posts/coffee_10/</guid>
+      <description>&lt;h3 id=&#34;английский-перевод-1914-года-h-rackham&#34;&gt;Английский перевод 1914 года, H. Rackham&lt;/h3&gt;
+&lt;p&gt;&amp;ldquo;But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?&amp;rdquo;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Ручные кофемолки: Comandante против Timemore</title>
+      <link>http://localhost:1313/posts/coffee_09/</link>
+      <pubDate>Sun, 07 Jun 2026 16:08:00 +0300</pubDate>
+      <guid>http://localhost:1313/posts/coffee_09/</guid>
+      <description>&lt;h3 id=&#34;английский-перевод-1914-года-h-rackham&#34;&gt;Английский перевод 1914 года, H. Rackham&lt;/h3&gt;
+&lt;p&gt;&amp;ldquo;But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?&amp;rdquo;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>История кофе: от эфиопских пастухов до третьей волны</title>
+      <link>http://localhost:1313/posts/coffee_08/</link>
+      <pubDate>Sun, 07 Jun 2026 16:07:00 +0300</pubDate>
+      <guid>http://localhost:1313/posts/coffee_08/</guid>
+      <description>&lt;h3 id=&#34;английский-перевод-1914-года-h-rackham&#34;&gt;Английский перевод 1914 года, H. Rackham&lt;/h3&gt;
+&lt;p&gt;&amp;ldquo;But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?&amp;rdquo;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Феномен Geisha: почему это зерно стоит космических денег</title>
+      <link>http://localhost:1313/posts/coffee_07/</link>
+      <pubDate>Sun, 07 Jun 2026 16:06:00 +0300</pubDate>
+      <guid>http://localhost:1313/posts/coffee_07/</guid>
+      <description>&lt;h3 id=&#34;английский-перевод-1914-года-h-rackham&#34;&gt;Английский перевод 1914 года, H. Rackham&lt;/h3&gt;
+&lt;p&gt;&amp;ldquo;But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?&amp;rdquo;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Вода для кофе: почему осмоса недостаточно</title>
+      <link>http://localhost:1313/posts/coffee_06/</link>
+      <pubDate>Sun, 07 Jun 2026 16:05:00 +0300</pubDate>
+      <guid>http://localhost:1313/posts/coffee_06/</guid>
+      <description>&lt;h3 id=&#34;английский-перевод-1914-года-h-rackham&#34;&gt;Английский перевод 1914 года, H. Rackham&lt;/h3&gt;
+&lt;p&gt;&amp;ldquo;But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?&amp;rdquo;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Гид по каппингу: как развивать вкусовой ольфакторный опыт</title>
+      <link>http://localhost:1313/posts/coffee_05/</link>
+      <pubDate>Sun, 07 Jun 2026 16:04:00 +0300</pubDate>
+      <guid>http://localhost:1313/posts/coffee_05/</guid>
+      <description>&lt;h3 id=&#34;английский-перевод-1914-года-h-rackham&#34;&gt;Английский перевод 1914 года, H. Rackham&lt;/h3&gt;
+&lt;p&gt;&amp;ldquo;But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?&amp;rdquo;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Секреты обжарки: от зеленого зерна к первому крэку</title>
+      <link>http://localhost:1313/posts/coffee_04/</link>
+      <pubDate>Sun, 07 Jun 2026 16:03:00 +0300</pubDate>
+      <guid>http://localhost:1313/posts/coffee_04/</guid>
+      <description>&lt;h3 id=&#34;английский-перевод-1914-года-h-rackham&#34;&gt;Английский перевод 1914 года, H. Rackham&lt;/h3&gt;
+&lt;p&gt;&amp;ldquo;But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?&amp;rdquo;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Эспрессо дома: как выбрать рожковую машину</title>
+      <link>http://localhost:1313/posts/coffee_03/</link>
+      <pubDate>Sun, 07 Jun 2026 16:02:00 +0300</pubDate>
+      <guid>http://localhost:1313/posts/coffee_03/</guid>
+      <description>&lt;p&gt;&lt;img alt=&#34;Альтернативный текст&#34; loading=&#34;lazy&#34; src=&#34;http://localhost:1313/images/02.jpg&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;английский-перевод-1914-года-h-rackham&#34;&gt;Английский перевод 1914 года, H. Rackham&lt;/h3&gt;
+&lt;p&gt;&amp;ldquo;But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?&amp;rdquo;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Кофейная альтернатива: разбор воронки V60</title>
+      <link>http://localhost:1313/posts/coffee_02/</link>
+      <pubDate>Sun, 07 Jun 2026 16:01:00 +0300</pubDate>
+      <guid>http://localhost:1313/posts/coffee_02/</guid>
+      <description>&lt;h3 id=&#34;классический-текст-lorem-ipsum-используемый-с-xvi-века&#34;&gt;Классический текст Lorem Ipsum, используемый с XVI века&lt;/h3&gt;
+&lt;p&gt;&amp;ldquo;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&amp;rdquo;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Мираж в Монте-Карло: почему в Монако так сложно найти чашку Specialty кофе</title>
+      <link>http://localhost:1313/posts/coffee-in-monaco/</link>
+      <pubDate>Sun, 07 Jun 2026 15:20:00 +0300</pubDate>
+      <guid>http://localhost:1313/posts/coffee-in-monaco/</guid>
+      <description>&lt;p&gt;Монако — это синоним абсолютного люкса. Здесь на квадратный метр приходится больше суперкаров, яхт и часовых бутиков, чем где-либо на планете. Казалось бы, в месте, где культивируется гедонизм, индустрия &lt;em&gt;третьей кофейной волны&lt;/em&gt; должна процветать.&lt;/p&gt;
+&lt;p&gt;Но реальность бьет наотмашь: если вы ищете не просто дозу кофеина, а чистый, сбалансированный вкус светлой обжарки с понятным терруаром, Монако покажется вам выжженной кофейной пустыней.&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;Эспрессо на фоне побережья&#34; loading=&#34;lazy&#34; src=&#34;https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&amp;fit=crop&amp;w=800&amp;q=80&#34;&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;итальянский-синдром-лигурийского-побережья&#34;&gt;Итальянский синдром Лигурийского побережья&lt;/h2&gt;
+&lt;p&gt;Главная беда местного кофейного рынка — глубоко укоренившийся «итальянский синдром». До границы с Италией отсюда рукой подать, и местная гастрономическая культура тотально оккупирована традициями классического эспрессо.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>test-phone</title>
+      <link>http://localhost:1313/posts/test-phone/</link>
+      <pubDate>Sat, 06 Jun 2026 20:49:00 +0300</pubDate>
+      <guid>http://localhost:1313/posts/test-phone/</guid>
+      <description>&lt;h2 id=&#34;введение&#34;&gt;Введение&lt;/h2&gt;
+&lt;p&gt;Пиши свой текст здесь&amp;hellip; Это прилетело с телефона&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Как я прикрутил шаблоны к Обсидиану</title>
+      <link>http://localhost:1313/posts/obsidian-template-test/</link>
+      <pubDate>Sat, 06 Jun 2026 17:49:00 +0300</pubDate>
+      <guid>http://localhost:1313/posts/obsidian-template-test/</guid>
+      <description>&lt;h2 id=&#34;введение&#34;&gt;Введение&lt;/h2&gt;
+&lt;p&gt;Лихо я прикрутил&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Пост из Obsidian</title>
+      <link>http://localhost:1313/posts/test-obsidian/</link>
+      <pubDate>Fri, 05 Jun 2026 16:40:00 +0300</pubDate>
+      <guid>http://localhost:1313/posts/test-obsidian/</guid>
+      <description>&lt;p&gt;Привет, это проверка публикации прямо из интерфейса Obsidian!&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Зачем я ношу нож</title>
-      <link>http://localhost:1313/KAWOOSIQUE/posts/nozh/</link>
+      <link>http://localhost:1313/posts/nozh/</link>
       <pubDate>Fri, 05 Jun 2026 12:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/KAWOOSIQUE/posts/nozh/</guid>
+      <guid>http://localhost:1313/posts/nozh/</guid>
       <description>&lt;p&gt;&lt;strong&gt;Старшему участковому&lt;/strong&gt;&lt;br&gt;
 13-го отделения милиции&lt;br&gt;
 Хохменского района&lt;br&gt;

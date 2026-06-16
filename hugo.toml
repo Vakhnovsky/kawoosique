@@ -1,6 +1,6 @@
 baseURL = 'https://kawoosique.com/'
 languageCode = 'ru-ru'
-title = 'Блог KAWOOSIQUE'
+title = 'KAWOOSIQUE'
 theme = 'PaperMod'
 [outputs]
     home = ["HTML", "RSS", "JSON"]
@@ -9,45 +9,46 @@ theme = 'PaperMod'
     # Общие настройки темы
     env = 'production'
     title = 'KAWOOSIQUE'
-    description = 'Мир сквозь фильтр кофе'
+    # description убираем из params, чтобы не дублировать текст на главной
     author = 'Vakhnovsky'
     
-    # Включаем красивую кнопку переключения темная/светлая тема
+    # Темы и переключатели
     defaultTheme = 'auto'
     disableThemeToggle = false
     
-    # Показываем код языка (ru) и иконку RSS
-    ShowShareButtons = false # выключим лишний мусор под постами
-    ShowReadingTime = true # показывать время чтения статьи
-    ShowCodeCopyButtons = true # кнопка "скопировать" для блоков кода
-    
+    # Настройки отображения элементов
+    ShowShareButtons = false 
+    ShowReadingTime = true 
+    ShowCodeCopyButtons = true 
+    # Отключаем дефолтный подвал PaperMod (Powered by Hugo & PaperMod)
+    disableSpecial1stPost = false
+    disableScrollToTop = false
+    hideFooter = false # Скрывает/показывает копирайт и системные подписи в самом низу
+
     [params.label]
-    text = "" # Оставляем пустым, чтобы текст не дублировал графику
-    icon = "/main_logo.svg" # Путь к горизонтальному логотипу в шапке
-    iconHeight = 35 # Высота логотипа в пикселях (можно отрегулировать под себя)
+        text = " " 
+        icon = "/main_logo.svg" 
+        iconHeight = 45 
 
     # Настройка Главной страницы (Режим Профиля)
     [params.profileMode]
         enabled = true
-        title = 'KAWOOSIQUE'
-        subtitle = 'Мир сквозь фильтр кофе'
-        imageUrl = '/sq_logo.svg' # Сюда мы позже подставим твою реальную аватарку
-        imageWidth = 150
-        imageHeight = 150
+        title = ' ' # Стираем текстовый заголовок, у нас уже есть логотип на аватарке!
+        subtitle = ' ' # Оставляем только твой слоган
+        imageUrl = '/sq_logo.svg' 
+        imageWidth = 250
+        imageHeight = 250
         imageTitle = 'KAWOOSIQUE'
         
-        # Кнопки-ссылки под твоим описанием
+        # Кнопки-ссылки
         [[params.profileMode.buttons]]
-            name = '📚 Все посты'
+            name = 'Читать публикации'
             url = 'posts/'
         [[params.profileMode.buttons]]
-            name = '✈️ Мой Telegram'
-            url = 'https://t.me/kawoosique' # Поменяй на свой юзернейм
+            name = 'Telegram-канал'
+            url = 'https://t.me/kawoosique'
 
-    # Иконки соцсетей (появятся в самом низу)
-    [[params.socialIcons]]
-        name = 'telegram'
-        url = 'https://t.me/kawoosique'
+    # Блок [[params.socialIcons]] полностью удалён, чтобы убрать лишний самолётик
 
 # Настройка меню навигации в шапке сайта
 [[menu.main]]
@@ -59,10 +60,10 @@ theme = 'PaperMod'
     url = 'tags/'
     weight = 20
 [[menu.main]]
-    name = '🔍 Поиск'
+    name = 'Поиск'
     url = 'search/'
     weight = 30
 [[menu.main]]
-    name = '📅 Архив'
+    name = 'Архив'
     url = 'archives/'
     weight = 40

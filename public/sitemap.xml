@@ -3,17 +3,77 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/KAWOOSIQUE/</loc>
+    <loc>http://localhost:1313/</loc>
+    <lastmod>2026-06-07T16:09:00+03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/</loc>
+    <lastmod>2026-06-07T16:09:00+03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/coffee_10/</loc>
+    <lastmod>2026-06-07T16:09:00+03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/coffee_09/</loc>
+    <lastmod>2026-06-07T16:08:00+03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/coffee_08/</loc>
+    <lastmod>2026-06-07T16:07:00+03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/coffee_07/</loc>
+    <lastmod>2026-06-07T16:06:00+03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/coffee_06/</loc>
+    <lastmod>2026-06-07T16:05:00+03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/coffee_05/</loc>
+    <lastmod>2026-06-07T16:04:00+03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/coffee_04/</loc>
+    <lastmod>2026-06-07T16:03:00+03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/coffee_03/</loc>
+    <lastmod>2026-06-07T16:02:00+03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/coffee_02/</loc>
+    <lastmod>2026-06-07T16:01:00+03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/categories/</loc>
+    <lastmod>2026-06-07T15:20:00+03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/specialty/</loc>
+    <lastmod>2026-06-07T15:20:00+03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2026-06-07T15:20:00+03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/categories/%D0%B7%D0%B0%D0%BC%D0%B5%D1%82%D0%BA%D0%B8-%D0%BD%D0%B0-%D0%BF%D0%BE%D0%BB%D1%8F%D1%85/</loc>
+    <lastmod>2026-06-07T15:20:00+03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/%D0%BA%D0%BE%D1%84%D0%B5/</loc>
+    <lastmod>2026-06-07T15:20:00+03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/coffee-in-monaco/</loc>
+    <lastmod>2026-06-07T15:20:00+03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/%D0%BC%D0%BE%D0%BD%D0%B0%D0%BA%D0%BE/</loc>
+    <lastmod>2026-06-07T15:20:00+03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/%D0%BF%D1%83%D1%82%D0%B5%D1%88%D0%B5%D1%81%D1%82%D0%B2%D0%B8%D1%8F/</loc>
+    <lastmod>2026-06-07T15:20:00+03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/test-phone/</loc>
+    <lastmod>2026-06-06T20:49:00+03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/obsidian-template-test/</loc>
+    <lastmod>2026-06-06T17:49:00+03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/test-obsidian/</loc>
+    <lastmod>2026-06-05T16:40:00+03:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/nozh/</loc>
     <lastmod>2026-06-05T12:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/KAWOOSIQUE/posts/</loc>
-    <lastmod>2026-06-05T12:00:00+00:00</lastmod>
+    <loc>http://localhost:1313/archives/</loc>
   </url><url>
-    <loc>http://localhost:1313/KAWOOSIQUE/posts/nozh/</loc>
-    <lastmod>2026-06-05T12:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/KAWOOSIQUE/categories/</loc>
-  </url><url>
-    <loc>http://localhost:1313/KAWOOSIQUE/tags/</loc>
+    <loc>http://localhost:1313/search/</loc>
   </url>
 </urlset>

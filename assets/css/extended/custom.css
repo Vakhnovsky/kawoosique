@@ -1,0 +1,170 @@
+
+/* Скрываем упоминание Hugo */
+.footer span:last-of-type {
+    display: none !important;
+}
+
+/* Настраиваем отображение миниатюр постов на главной */
+/* Контейнер блока постов на главной */
+/*
+.recent-posts-container {
+    max-width: var(--main-width);
+    margin: 40px auto 0 auto;
+    padding: 0 20px;
+}
+
+.recent-posts-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+*/
+/* Сетка карточек */
+/*
+.compact-posts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+*/
+
+/* Сама карточка */
+.compact-post-card {
+    background: var(--theme);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.compact-post-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary);
+}
+
+/* Миниатюра слева */
+.compact-post-cover {
+    width: 200px;
+    min-width: 200px;
+    height: 140px;
+    overflow: hidden;
+}
+
+.compact-post-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Текстовая часть справа */
+/*
+.compact-post-content {
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.compact-post-content h2 {
+    margin: 0 0 8px 0;
+    font-size: 1.3rem;
+    line-height: 1.2;
+}
+*/
+.compact-post-content h2 a {
+    color: var(--primary);
+}
+
+.compact-post-content .entry-content {
+    font-size: 0.9rem;
+    color: var(--secondary);
+    line-height: 1.4;
+    margin-bottom: 8px;
+}
+
+.compact-post-content .entry-footer {
+    font-size: 0.8rem;
+    color: var(--secondary);
+}
+
+/* Адаптив под мобилки: перестраиваем в один столбец */
+@media screen and (max-width: 600px) {
+    .compact-post-card {
+        flex-direction: column;
+    }
+    
+    /*
+    .compact-post-cover {
+        width: 100%;
+        height: 160px;
+    }
+    */
+}
+
+/* ==========================================================================
+   ОПТИМИЗАЦИЯ СВОБОДНОГО ПРОСТРАНСТВА И ОТСТУПОВ (УБИРАЕМ ВОЗДУХ)
+   ========================================================================== */
+
+/* 1. Ужимаем отступ между верхней шапкой (header) и блоком профиля */
+.main {
+    min-height: auto !important; /* Убираем принудительную растяжку на весь экран */
+    padding-top: 0 !important; /* Сжимаем гигантский верхний отступ */
+}
+
+.profile_inner {
+    margin: 0 auto 0 auto !important; /* Двигаем круглый прицел ближе к шапке */
+    padding: 0 !important;
+}
+
+/* Изменяем дефолтный нижний отступ у аватара, чтобы приблизить слоган */
+.profile_inner .profile_box img {
+    margin-bottom: 10px !important;
+}
+
+/* 2. Сжимаем зону между кнопками профиля и блоком последних постов */
+.profile_inner .social-icons {
+    margin-top: 15px !important; /* Если иконки появятся */
+}
+
+/* Контейнер наших постов на главной двигаем сильно выше */
+.recent-posts-container {
+    max-width: var(--main-width);
+    margin: 15px auto 0 auto !important; /* Подтягиваем весь блок постов вверх */
+    padding: 0 20px;
+}
+
+/* Ужимаем отступ под заголовком "Последние публикации" */
+.recent-posts-title {
+    font-size: 1.2rem;
+    margin-bottom: 15px !important; 
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* 3. Делаем сетку карточек плотнее */
+.compact-posts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px !important; /* Карточки теперь лежат аккуратно друг за другом */
+}
+
+/* Дополнительно ужимаем внутренние отступы в самой карточке, чтобы она была аккуратнее */
+.compact-post-content {
+    padding: 10px 15px !important; /* Меньше пустоты вокруг текста внутри плитки */
+}
+
+.compact-post-content h2 {
+    margin: 0 0 4px 0 !important; /* Прижимаем заголовок поста к его описанию */
+}
+
+/* Ужимаем миниатюру, чтобы карточка по высоте стала еще компактнее */
+.compact-post-cover {
+    width: 180px;
+    min-width: 180px;
+    height: 110px; /* Идеальная пропорция для компактного информера */
+}
+
