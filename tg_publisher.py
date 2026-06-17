@@ -96,7 +96,11 @@ async def main(file_path):
         print(f"Успех! Пост из файла {file_path} успешно опубликован в Telegram.")
         
     except Exception as e:
+        import traceback
         print(f"Критическая ошибка при отправке через sendRichMessage: {e}")
+        print("\n=== ПОЛНЫЙ СТЕК ВЫЗОВОВ (TRACEBACK) ===")
+        traceback.print_exc()
+        print("=======================================\n")
         sys.exit(1)
     finally:
         # Корректно закрываем сессию aiogram
