@@ -9,19 +9,63 @@ DOMAIN = "https://kawoosique.com"
 
 def escape_markdown_v2(text):
     """
-    Экранирует спецсимволы для Telegram MarkdownV2, 
-    но оставляет нетронутыми символы разметки: *, _, `, [, ], (, ), #, -, !
+    Экранирует спецсимволы для Telegram MarkdownV2.
+    Символы: _, *, [, ], (, ), ~, `, >, #, +, -, =, |, {, }, ., !
+    Особенно критично экранировать '.', '-', '#' и '!', так как они часто встречаются в тексте.
     """
-    # Символы, которые нужно экранировать в обычном тексте MarkdownV2
-    escape_chars = r'\/{}><%+=.|!'
-    # Экранируем их по одному
-    for char in escape_chars:
-        text = text.replace(char, f'\\{char}')
+    # Список всех символов, которые ТГ требует экранировать
+    escape_chars = r'_*[]()~`>#+-=|{}.!'
     
-    # Отдельно аккуратно экранируем точки и дефисы, если они не являются частью разметки списков
-    # Но для надежности базового рендеринга просто заэкранируем отдельно стоящие технические знаки
-    text = re.sub(r'([.\\-])', r'\\\1', text)
-    return text
+    # Сначала временно сохраним ссылки, чтобы не поломать их синтаксис при экранировании
+    # Ищем конструкции [текст](ссылка)
+    links = []
+    def save_link(match):
+        links.append(match.group(0))
+        return f"__LINK_PLACEHOLDER_{len(links)-1}__"
+    
+    # Прячем ссылки
+    text_hidden = re.sub(r'\[.*?\]\(.*?\)', save_link, text)
+    
+    # Теперь экранируем ВСЕ опасные символы в оставшемся тексте
+    escaped_text = ""
+    for char in text_hidden:
+        if char in escape_chars:
+            escaped_text += f"\\{char}"
+        else:
+            escaped_text += char
+            
+    # Возвращаем ссылки на место, но внутри самой ссылки (в URL) тоже нужно заэкранировать 
+    # символы вроде точек или дефисов, если они там есть, кроме скобок и самого каркаса.
+    # Для простоты: в скрытых ссылках мы уже имеем готовые валидные URL, 
+    # но ТГ требует экранировать дефисы и точки даже внутри URL в MarkdownV2!
+    for i, link in enumerate(links):
+        # Разбираем скрытую ссылку на [текст] и (url)
+        link_match = re.match(r'\[(.*?)\]\((.*?)\)', link)
+        if link_match:
+            link_text = link_match.group(1)
+            link_url = link_match.group(2)
+            
+            # Экранируем текст внутри ссылки
+            escaped_ltext = ""
+            for char in link_text:
+                if char in escape_chars:
+                    escaped_ltext += f"\\{char}"
+                else:
+                    escaped_ltext += char
+            
+            # В URL экранируем только самые критичные для ТГ символы: . - ) ( и т.д.
+            escaped_lurl = ""
+            for char in link_url:
+                if char in escape_chars:
+                    escaped_lurl += f"\\{char}"
+                else:
+                    escaped_lurl += char
+            
+            # Собираем обратно БЕЗ экранирования внешних скобок разметки
+            valid_tg_link = f"[{escaped_ltext}]({escaped_lurl})"
+            escaped_text = escaped_text.replace(f"__LINK_PLACEHOLDER_{i}__", valid_tg_link)
+            
+    return escaped_text
 
 def main():
     bot_token = os.environ.get("TELEGRAM_BOT_TOKEN")
@@ -69,30 +113,30 @@ def main():
         if cover_img:
             cover_url = f"{DOMAIN}{cover_img}" if cover_img.startswith("/") else f"{DOMAIN}/{cover_img}"
 
-    # Делаем пути к картинкам внутри текста абсолютными
+    # Переводим относительные пути картинок в абсолютные веб-ссылки ДО экранирования
     post_body = re.sub(r'\!\[(.*?)\]\((/images/.*?)\)', f'![\\1]({DOMAIN}\\2)', post_body)
     
-    # Экранируем текст под правила MarkdownV2
+    # Картинка-превью (если есть) оформляется как невидимая ссылка в начале
+    prefix = ""
+    if cover_url:
+        # Для невидимой ссылки используем специальный символ пустого пространства
+        prefix = f"[ ]({cover_url})"
+    
+    # Формируем финальное сообщение: заголовок делаем жирным вручную
+    # Важно: сначала экранируем чистый заголовок и чистое тело
     safe_title = escape_markdown_v2(title)
     safe_body = escape_markdown_v2(post_body)
     
-    # Формируем финальный текст сообщения
-    final_text = ""
-    if cover_url:
-        safe_cover_url = escape_markdown_v2(cover_url)
-        # В MarkdownV2 картинка-превью изящно прячется в невидимый символ перед заголовком
-        final_text += f"[ ]({safe_cover_url})"
-        
-    final_text += f"*{safe_title}*\n\n{safe_body}"
+    # Собираем всё вместе. Конструкцию жирности `*...*` добавляем уже поверх экранированного текста!
+    final_text = f"{prefix}*{safe_title}*\n\n{safe_body}"
 
-    # Используем ОФИЦИАЛЬНЫЙ и 100% стабильный эндпоинт Telegram Bot API
+    # Делаем запрос к официальному Bot API
     url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
-    
     payload = {
         "chat_id": channel_id,
         "text": final_text,
         "parse_mode": "MarkdownV2",
-        "disable_web_page_preview": False # Чтобы обложка красиво подгружалась
+        "disable_web_page_preview": False
     }
     
     req = urllib.request.Request(
