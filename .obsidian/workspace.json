@@ -83,12 +83,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/search.md",
+                "file": "content/posts/markdown-test.md",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "search"
+              "title": "markdown-test"
             }
           }
         ],
@@ -252,19 +252,22 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "313fff5ef52d6559",
+  "active": "795f16c49613f447",
   "lastOpenFiles": [
+    "_templates/TG-HUGO-COVER.md",
+    "_templates/TG-only.md",
+    "content/posts/markdown-test.md",
+    "content/drafts/Markdown-tg-styles.md",
+    "content/posts/test-rich.md",
+    "content/search.md",
     "content/drafts",
     "content/archives.md",
-    "_templates/TG-only.md",
     "_templates/TG-COVER.md",
-    "_templates/TG-HUGO-COVER.md",
     "content/posts/test-hybrid.md",
     "content/posts/coffee_10.md",
     "content/posts/coffee_05.md",
     "content/posts/coffee_07.md",
     "content/posts/coffee_09.md",
-    "content/posts/test-rich.md",
     "content/posts/test-phone.md",
     "content/posts/test-obsidian.md",
     "content/posts/test-iv.md",
@@ -290,10 +293,8 @@
     "content/posts/coffee-in-monaco.md",
     "content/posts/obsidian-template-test.md",
     "test-phone.md",
-    "content/search.md",
     "content/search.md.md",
     "static/avatar.png",
-    "content/posts/nozh.md",
     "_templates"
   ]
 }
