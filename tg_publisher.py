@@ -1,13 +1,13 @@
 import os
 import sys
 import re
-import asyncio
+import json
+import urllib.request
 import yaml
-from aiogram import Bot
 
 DOMAIN = "https://kawoosique.com"
 
-async def main():
+def main():
     bot_token = os.environ.get("TELEGRAM_BOT_TOKEN")
     channel_id = os.environ.get("TELEGRAM_CHANNEL_ID")
     target_file = os.environ.get("TARGET_MD_FILE")
@@ -20,13 +20,11 @@ async def main():
         print("Нет файла для обработки.")
         return
 
-    print(f"Проверка файла: {target_file}")
-    bot = Bot(token=bot_token)
+    print(f"Парсинг файла: {target_file}")
     
     with open(target_file, "r", encoding="utf-8") as f:
         content = f.read()
         
-    # Отделяем YAML-шапку от текста статьи
     meta_match = re.match(r"^---\s*\n(.*?)\n---\s*\n(.*)$", content, re.DOTALL)
     if not meta_match:
         print("Файл не содержит Front Matter.")
@@ -43,34 +41,52 @@ async def main():
         
     title = meta.get("title", "Новая публикация")
     
-    # Обработка обложки (если есть)
+    # Сборка картинок
     cover_url = None
     if "cover" in meta and isinstance(meta["cover"], dict):
         cover_img = meta["cover"].get("image")
         if cover_img:
             cover_url = f"{DOMAIN}{cover_img}" if cover_img.startswith("/") else f"{DOMAIN}/{cover_img}"
 
-    # Переводим относительные пути картинок в тексте во внешние абсолютные URL
     post_body = re.sub(r'\!\[(.*?)\]\((/images/.*?)\)', f'![\\1]({DOMAIN}\\2)', post_body)
     
-    # Собираем финальный текст сообщения
+    # Формируем финальный текст в формате rich_markdown
     final_text = ""
     if cover_url:
         final_text += f"![Обложка]({cover_url})\n\n"
         
     final_text += f"# {title}\n\n" + post_body
 
-    print("Пробуем отправить Rich Message...")
+    # Прямой POST запрос к Telegram Bot API без библиотек-посредников
+    url = f"https://api.telegram.org/bot{bot_token}/sendRichMessage"
+    
+    # Согласно Bot API 10.1, метод принимает объект rich_message 
+    # Мы передаем строку с разметкой и указываем parse_mode или специализированный тип
+    payload = {
+        "chat_id": channel_id,
+        "rich_message": {
+            "text": final_text,
+            "parse_mode": "MarkdownV2" # или специализированный флаг rich_markdown, если шлем объектом
+        }
+    }
+    
+    req = urllib.request.Request(
+        url, 
+        data=json.dumps(payload).encode('utf-8'), 
+        headers={'Content-Type': 'application/json'}
+    )
+    
+    print("Отправка прямого запроса в Telegram...")
     try:
-        await bot.send_rich_message(
-            chat_id=channel_id,
-            rich_message=final_text,
-            formatting_options="rich_markdown"
-        )
-        print("УРА! Публикация в канале!")
+        with urllib.request.urlopen(req) as response:
+            res_data = response.read().decode('utf-8')
+            print(f"Ответ от Telegram API: {res_data}")
+    except urllib.error.HTTPError as e:
+        print(f"Критическая ошибка Telegram API (HTTP {e.code}): {e.read().decode('utf-8')}")
+        sys.exit(1)
     except Exception as e:
-        print(f"Ошибка при отправке: {e}")
+        print(f"Ошибка выполнения запроса: {e}")
         sys.exit(1)
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()

@@ -18,12 +18,12 @@ jobs:
         with:
           fetch-depth: 2
 
-      # 2. Разворачиваем Python нужной версии
+      # 2. Разворачиваем Python нужной версии (исправлена опечатка в имени аргумента)
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-python-version: '3.11'
-          cache: 'pip' # Кэширование зависимостей для быстрой сборки
+          python-version: '3.11'
+          cache: 'pip'
 
       # 3. Ставим свежий aiogram 3.29.0+ и парсер YAML
       - name: Install dependencies
