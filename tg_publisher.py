@@ -69,43 +69,43 @@ async def main():
     # 4. Обработка контента под выбранный сценарий (tg_mode)
     if tg_mode == "iv_only":
         print("Режим [iv_only]: Формируется короткая карточка со ссылкой на Instant View.")
-        # Для режима только IV тело поста нам не нужно, собираем только заголовок и линк
         final_text = f"# {title}\n\n[⚡ Читать в Instant View]({iv_url})"
         
     else:
-        # Сценарий hybrid: Отсекаем хвост лонгрида по маркеру
+        # Сценарий hybrid: Отсекаем хвост лонгрида по маркеру комментария или старому ---tg---
         if tg_mode == "hybrid":
-            print("Режим [hybrid]: Вырезаем превью до разделителя ---tg---.")
-            if "---tg---" in post_body:
+            print("Режим [hybrid]: Вырезаем превью по маркеру.")
+            if "" in post_body:
+                post_body = post_body.split("")[0].strip()
+            elif "---tg---" in post_body:
                 post_body = post_body.split("---tg---")[0].strip()
             else:
-                print("Предупреждение: Маркер ---tg--- не найден. Текст отправится целиком.")
+                print("Предупреждение: Маркер разделения не найден. Текст отправится целиком.")
         else:
             print("Режим [rich_only]: Текст подготавливается к публикации целиком.")
 
-        # Ультимативная регулярка: превращаем относительные пути Obsidian/Hugo вида ![alt](/images/foto.jpg)
-        # в полноценные абсолютные адреса, которые нативно скушает Rich-парсер Телеграма
+        # Превращаем относительные пути Obsidian/Hugo вида ![alt](/images/foto.jpg) в абсолютные адреса
         post_body = re.sub(r'\!\[(.*?)\]\((/images/.*?)\)', f'![\\1]({DOMAIN}\\2)', post_body)
         
         # Собираем финальное сообщение
         final_text = ""
         
-        # Если есть обложка, нативно вшиваем её первой строкой разметки rich_markdown
+        # Если есть обложка, нативно вшиваем её первой строкой
         if cover_url:
             final_text += f"![Обложка]({cover_url})\n\n"
             
         final_text += f"# {title}\n\n" + post_body
         
-        # Если это гибридный режим — аккуратно пристыковываем кнопку-ссылку на IV лонгрида в самый конец
+        # Если это гибридный режим — пристыковываем ссылку на IV лонгрида в самый конец
         if tg_mode == "hybrid":
             final_text += f"\n\n[⚡ Читать статью целиком в Instant View]({iv_url})"
 
-    # 5. Стреляем в Bot API 10.1 через революционный метод send_rich_message в aiogram
+    # 5. Стреляем в Bot API 10.1 через метод send_rich_message (исправлен аргумент на rich_message)
     print(f"Отправка Rich-сообщения в канал в режиме: {tg_mode}")
     try:
         await bot.send_rich_message(
             chat_id=channel_id,
-            text=final_text,
+            rich_message=final_text, # aiogram 3.29.0+ требует именно этот параметр вместо text
             formatting_options="rich_markdown"
         )
         print("Публикация успешно размещена в канале!")
