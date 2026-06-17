@@ -1,50 +1,41 @@
-name: Telegram Rich Publisher
+name: Publish Post to Telegram
 
 on:
   push:
-    branches:
-      - main
     paths:
-      - 'content/posts/**' # Триггерится только если изменились файлы в папке постов
+      - 'content/posts/**.md'
 
 jobs:
-  publish_to_telegram:
+  publish:
     runs-on: ubuntu-latest
-
     steps:
-      # 1. Стягиваем код репозитория (нужна глубина истории коммитов 2, чтобы вычислить разницу)
+      # 1. Забираем код репозитория
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2
+          fetch-depth: 2 # Нужно для git diff, чтобы сравнить текущий коммит с предыдущим
 
-      # 2. Разворачиваем Python нужной версии (убран проблемный cache: pip)
+      # 2. Разворачиваем чистый Python (без ломающего сборку кэша)
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      # 3. Ставим свежий aiogram 3.29.0+ и парсер YAML
+      # 3. Ставим парсер PyYAML
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install aiogram>=3.29.0 PyYAML
+        run: pip install pyyaml
 
-      # 4. Вычисляем, какой именно .md файл был добавлен или изменен в последнем коммите
+      # 4. Вычисляем точное имя измененного файла
       - name: Get changed markdown file
         id: changed-files
         run: |
-          # Ищем файлы в content/posts/, добавленные (A) или измененные (M), заканчивающиеся на .md
           CHANGED_FILE=$(git diff --name-only HEAD~1 HEAD | grep -E '^content/posts/.*\.md$' | head -n 1)
-          echo "FILE_PATH=$CHANGED_FILE" >> $GITHUB_ENV
-          echo "Найден файл для обработки: $CHANGED_FILE"
+          echo "TARGET_MD_FILE=$CHANGED_FILE" >> $GITHUB_ENV
 
-      # 5. Запускаем наш издательский скрипт, если файл был найден
-      - name: Run Publisher Script
-        if: env.FILE_PATH != ''
+      # 5. Запускаем нашего издателя
+      - name: Run publisher script
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
-          TARGET_MD_FILE: ${{ env.FILE_PATH }}
-        run: |
-          python tg_publisher.py
+          TARGET_MD_FILE: ${{ env.TARGET_MD_FILE }}
+        run: python tg_publisher.py
