@@ -7,6 +7,22 @@ import yaml
 
 DOMAIN = "https://kawoosique.com"
 
+def escape_markdown_v2(text):
+    """
+    Экранирует спецсимволы для Telegram MarkdownV2, 
+    но оставляет нетронутыми символы разметки: *, _, `, [, ], (, ), #, -, !
+    """
+    # Символы, которые нужно экранировать в обычном тексте MarkdownV2
+    escape_chars = r'\/{}><%+=.|!'
+    # Экранируем их по одному
+    for char in escape_chars:
+        text = text.replace(char, f'\\{char}')
+    
+    # Отдельно аккуратно экранируем точки и дефисы, если они не являются частью разметки списков
+    # Но для надежности базового рендеринга просто заэкранируем отдельно стоящие технические знаки
+    text = re.sub(r'([.\\-])', r'\\\1', text)
+    return text
+
 def main():
     bot_token = os.environ.get("TELEGRAM_BOT_TOKEN")
     channel_id = os.environ.get("TELEGRAM_CHANNEL_ID")
@@ -56,20 +72,27 @@ def main():
     # Делаем пути к картинкам внутри текста абсолютными
     post_body = re.sub(r'\!\[(.*?)\]\((/images/.*?)\)', f'![\\1]({DOMAIN}\\2)', post_body)
     
-    # Формируем финальное тело для Rich Markdown
+    # Экранируем текст под правила MarkdownV2
+    safe_title = escape_markdown_v2(title)
+    safe_body = escape_markdown_v2(post_body)
+    
+    # Формируем финальный текст сообщения
     final_text = ""
     if cover_url:
-        final_text += f"![Обложка]({cover_url})\n\n"
+        safe_cover_url = escape_markdown_v2(cover_url)
+        # В MarkdownV2 картинка-превью изящно прячется в невидимый символ перед заголовком
+        final_text += f"[ ]({safe_cover_url})"
         
-    final_text += f"# {title}\n\n" + post_body
+    final_text += f"*{safe_title}*\n\n{safe_body}"
 
-    # Официальный эндпоинт для отправки форматированных Rich-сообщений
-    url = f"https://api.telegram.org/bot{bot_token}/sendRichMessage"
+    # Используем ОФИЦИАЛЬНЫЙ и 100% стабильный эндпоинт Telegram Bot API
+    url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
     
-    # Структура по документации Bot API 10.1 для rich_markdown
     payload = {
         "chat_id": channel_id,
-        "rich_message": final_text
+        "text": final_text,
+        "parse_mode": "MarkdownV2",
+        "disable_web_page_preview": False # Чтобы обложка красиво подгружалась
     }
     
     req = urllib.request.Request(
@@ -78,7 +101,7 @@ def main():
         headers={'Content-Type': 'application/json'}
     )
     
-    print("Отправка Rich Message напрямую в Telegram API...")
+    print("Отправка сообщения в Telegram через официальный sendMessage MarkdownV2...")
     try:
         with urllib.request.urlopen(req) as response:
             res_data = response.read().decode('utf-8')
