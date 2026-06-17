@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/posts/test-phone.md",
-                "mode": "source",
-                "source": false
+                "file": "content/posts/coffee_06.md",
+                "mode": "preview",
+                "source": true
               },
               "icon": "lucide-file",
-              "title": "test-phone"
+              "title": "coffee_06"
             }
           }
         ],
@@ -181,26 +181,52 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "d6df10a1a84772f8",
+  "active": "a5e3dbc11ba4d6c3",
   "lastOpenFiles": [
-    "content/posts/nozh.md",
     "content/posts/test-phone.md",
-    "static/avatar.png",
-    "public/tags/index.xml",
-    "public/tags/index.html",
-    "public/sitemap.xml",
-    "public/posts/page/1/index.html",
-    "public/posts/nozh/index.html",
-    "public/posts/index.xml",
-    "public/posts/index.html",
-    "public/page/1/index.html",
-    "public/index.xml",
-    "public/index.html",
+    "public/avatar.png",
+    "/public/avatar.png",
+    "static/sq_logo.svg",
+    "static/main_logo.svg",
+    "static/images/09.jpg",
+    "static/images/08.jpg",
+    "static/images/07.jpg",
+    "static/images/06.jpg",
+    "static/images/05.jpg",
+    "static/images/04.jpg",
+    "public/tags/путешествия/page/1/index.html",
+    "public/tags/путешествия/index.xml",
+    "public/tags/путешествия/index.html",
+    "public/tags/монако/page/1/index.html",
+    "public/tags/монако/index.xml",
+    "public/tags/монако/index.html",
+    "public/tags/кофе/page/1/index.html",
+    "public/tags/кофе/index.xml",
+    "public/tags/кофе/index.html",
+    "public/tags/specialty/page/1/index.html",
+    "content/posts/coffee_10.md",
+    "content/posts/coffee_09.md",
+    "content/posts/coffee_08.md",
+    "content/posts/coffee_07.md",
+    "content/posts/coffee_06.md",
+    "content/posts/coffee_05.md",
+    "content/posts/coffee_04.md",
+    "content/posts/coffee_03.md",
+    "/content/posts/coffee_10.md",
+    "/content/posts/coffee_09.md",
+    "/content/posts/coffee_08.md",
+    "/content/posts/coffee_07.md",
+    "/content/posts/coffee_06.md",
+    "/content/posts/coffee_05.md",
+    "/content/posts/coffee_04.md",
+    "/content/posts/coffee_03.md",
+    "/content/posts/coffee_02.md",
+    "content/posts/coffee_02.md",
+    "/content/posts/coffee-in-monaco.md",
+    "content/posts/coffee-in-monaco.md",
+    "content/posts/nozh.md",
     "content/search.md",
     "content/posts/test-obsidian.md",
-    "content/posts/obsidian-template-test.md",
-    "content/archives.md",
-    "archetypes/default.md",
-    "_templates/new post.md"
+    "content/posts/obsidian-template-test.md"
   ]
 }
