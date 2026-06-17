@@ -83,12 +83,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/posts/test-hybrid.md",
+                "file": "content/search.md",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "test-hybrid"
+              "title": "search"
             }
           }
         ],
@@ -254,12 +254,21 @@
   },
   "active": "313fff5ef52d6559",
   "lastOpenFiles": [
+    "content/drafts",
+    "content/archives.md",
+    "_templates/TG-only.md",
+    "_templates/TG-COVER.md",
+    "_templates/TG-HUGO-COVER.md",
+    "content/posts/test-hybrid.md",
+    "content/posts/coffee_10.md",
+    "content/posts/coffee_05.md",
+    "content/posts/coffee_07.md",
+    "content/posts/coffee_09.md",
     "content/posts/test-rich.md",
     "content/posts/test-phone.md",
     "content/posts/test-obsidian.md",
     "content/posts/test-iv.md",
     "content/posts/test-simple.md",
-    "content/posts/test-hybrid.md",
     "content/posts/coffee_02.md",
     "public/assets/css/stylesheet.9b42e0dfafec85c2898187a3cbfdceede1b8e525bda08805d4678a9cb316a44b.css",
     "public/assets/css/stylesheet.3ef4ed4ec8b3093f7c208c10f14de59fae2e061815a79ca018b84d8b81371581.css",
@@ -276,21 +285,15 @@
     "static/images/01.jpg",
     "static/images",
     "content/posts/coffee_04.md",
-    "content/posts/coffee_05.md",
     "content/posts/coffee_06.md",
-    "content/posts/coffee_07.md",
     "content/posts/coffee_08.md",
-    "content/posts/coffee_09.md",
-    "content/posts/coffee_10.md",
     "content/posts/coffee-in-monaco.md",
     "content/posts/obsidian-template-test.md",
     "test-phone.md",
-    "content/archives.md",
     "content/search.md",
     "content/search.md.md",
     "static/avatar.png",
     "content/posts/nozh.md",
-    "_templates/new post.md",
     "_templates"
   ]
 }

@@ -1,9 +1,10 @@
 ---
 title: "{{title}}"
 date: {{date}}T{{time}}:00+03:00
-draft: false
-tags: []
-categories: []
+draft: true
+tg_mode: "rich_only"
+tags: ["мысли", "заметка"]
+categories: ["Telegram"]
 ---
 
 ## Введение

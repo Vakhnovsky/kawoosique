@@ -28,7 +28,19 @@ async def transform_markdown(file_path):
     content = content.replace('](/', f']({DOMAIN}/')
     content = content.replace('="/', f'="{DOMAIN}/')
     
-    # 2. Извлечение и валидация обложки (cover.image) из Front Matter
+    # 2. Фикс одиночных переносов строк из Obsidian (Спецификация GFM Markdown)
+    # Если строка текстовая, добавляем в её конец два пробела, чтобы Telegram сделал жесткий перенос.
+    processed_lines = []
+    for line in content.splitlines():
+        stripped = line.strip()
+        # Не трогаем пустые строки и строки системной разметки (заголовки, списки, таблицы)
+        if not stripped or stripped.startswith(('#', '-', '*', '+', '|')) or stripped.endswith('|'):
+            processed_lines.append(line)
+        else:
+            processed_lines.append(line + "  ")
+    content = "\n".join(processed_lines)
+    
+    # 3. Извлечение и валидация обложки (cover.image) из Front Matter
     cover_data = post.get('cover', {})
     cover_url = ""
     if isinstance(cover_data, dict):
@@ -39,15 +51,14 @@ async def transform_markdown(file_path):
             else:
                 cover_url = cover_image
 
-    # 3. Формирование ссылки на Instant View
+    # 4. Формирование ссылки на Instant View (оставляем для совместимости режимов hybrid/iv_only)
     slug = post.get('slug', os.path.splitext(os.path.basename(file_path))[0])
     iv_url = f"https://t.me/iv?url={DOMAIN}/posts/{slug}/&rhash={RHASH}"
     
-    # Автоопределение гибридного режима: если есть маркер резака, включаем hybrid автоматически
     if TG_MARKER in content and tg_mode == 'rich_only':
         tg_mode = 'hybrid'
         
-    # 4. Обработка режимов публикации
+    # 5. Обработка режимов публикации
     if tg_mode == 'hybrid':
         if TG_MARKER in content:
             body = content.split(TG_MARKER)[0].strip()
@@ -59,14 +70,14 @@ async def transform_markdown(file_path):
         description = post.get('description', '')
         body = f"### {title}\n\n{description}\n\n[Открыть Instant View]({iv_url})"
         
-    else:  # rich_only (публикация текста целиком в рамках 32k символов)
+    else:  # rich_only (чистый красивый лонгрид без лишних внешних ссылок)
         body = content.strip()
         
-    # 5. Интеграция обложки в начало сообщения (Rich Markdown нативно поддерживает блоки картинок)
+    # 6. Интеграция обложки в начало сообщения
     if cover_url and tg_mode != 'iv_only':
         body = f"![Обложка]({cover_url})\n\n" + body
         
-    # 6. Добавление нативного заголовка H1, если его нет в начале текста
+    # 7. Добавление нативного заголовка H1, если его нет в начале текста
     if title and not body.startswith(f"# {title}") and tg_mode != 'iv_only':
         body = f"# {title}\n\n" + body
         
@@ -83,15 +94,12 @@ async def main(file_path):
     bot = Bot(token=bot_token)
     
     try:
-        # Получаем очищенный и размеченный текст
         rich_markdown_text = await transform_markdown(file_path)
         
-        # Контроль жесткого лимита Bot API 10.1 (32 768 символов UTF-8)
         if len(rich_markdown_text) > 32768:
             print(f"Предупреждение: Текст превышает лимит API 10.1 ({len(rich_markdown_text)} симв.). Сжатие...")
             rich_markdown_text = rich_markdown_text[:32760] + "\n\n..."
             
-        # Отправка структурированного Rich-сообщения
         await bot.send_rich_message(
             chat_id=channel_id,
             rich_message=InputRichMessage(markdown=rich_markdown_text)
@@ -106,23 +114,17 @@ async def main(file_path):
         print("=======================================\n")
         sys.exit(1)
     finally:
-        # Корректно закрываем сессию aiogram
         await bot.session.close()
 
 if __name__ == "__main__":
     target_file = None
-    
-    # 1. Сначала проверяем аргументы командной строки
     if len(sys.argv) >= 2:
         target_file = sys.argv[1]
-        
-    # 2. Если аргументов нет, берём из переменной окружения GitHub Actions
     elif os.getenv("TARGET_MD_FILE"):
         target_file = os.getenv("TARGET_MD_FILE")
         
-    # 3. Если файла вообще нигде нет
     if not target_file or target_file.strip() == "":
-        print("Ошибка запуска: Путь к файлу не передан ни через аргументы, ни через env-переменную TARGET_MD_FILE.")
+        print("Ошибка запуска: Путь к файлу не передан.")
         sys.exit(1)
         
     print(f"Запуск публикации для файла: {target_file}")
