@@ -103,9 +103,20 @@ async def main(file_path):
         await bot.session.close()
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Ошибка запуска: Скрипту не передан путь к файлу публикации.")
+    target_file = None
+    
+    # 1. Сначала проверяем аргументы командной строки (если запускаем вручную)
+    if len(sys.argv) >= 2:
+        target_file = sys.argv[1]
+        
+    # 2. Если аргументов нет, берём из переменной окружения GitHub Actions
+    elif os.getenv("TARGET_MD_FILE"):
+        target_file = os.getenv("TARGET_MD_FILE")
+        
+    # 3. Если файла вообще нигде нет — прерываемся с понятной ошибкой
+    if not target_file or target_file.strip() == "":
+        print("Ошибка запуска: Путь к файлу не передан ни через аргументы, ни через env-переменную TARGET_MD_FILE.")
         sys.exit(1)
         
-    target_file = sys.argv[1]
+    print(f"Запуск публикации для файла: {target_file}")
     asyncio.run(main(target_file))
