@@ -1,161 +1,111 @@
 import os
 import sys
-import re
-import json
-import urllib.request
-import yaml
+import asyncio
+import frontmatter
+from aiogram import Bot
+from aiogram.types import InputRichMessage
 
+# Технические константы проекта KAWOOSIQUE
 DOMAIN = "https://kawoosique.com"
+RHASH = "5dda3eb0d9e2b1"
 
-def escape_markdown_v2(text):
+async def transform_markdown(file_path):
     """
-    Экранирует спецсимволы для Telegram MarkdownV2.
-    Символы: _, *, [, ], (, ), ~, `, >, #, +, -, =, |, {, }, ., !
-    Особенно критично экранировать '.', '-', '#' и '!', так как они часто встречаются в тексте.
+    Парсит Front Matter заметки Obsidian, преобразует относительные пути
+    изображений в абсолютные URL сайта и форматирует тело под Rich Markdown.
     """
-    # Список всех символов, которые ТГ требует экранировать
-    escape_chars = r'_*[]()~`>#+-=|{}.!'
+    with open(file_path, 'r', encoding='utf-8') as f:
+        post = frontmatter.load(f)
+        
+    title = post.get('title', '')
+    tg_mode = post.get('tg_mode', 'rich_only')
+    content = post.content
     
-    # Сначала временно сохраним ссылки, чтобы не поломать их синтаксис при экранировании
-    # Ищем конструкции [текст](ссылка)
-    links = []
-    def save_link(match):
-        links.append(match.group(0))
-        return f"__LINK_PLACEHOLDER_{len(links)-1}__"
+    # 1. Автоматическая трансформация путей картинок: /images/X.jpg -> https://kawoosique.com/images/X.jpg
+    content = content.replace('](/', f']({DOMAIN}/')
+    content = content.replace('="/', f'="{DOMAIN}/')
     
-    # Прячем ссылки
-    text_hidden = re.sub(r'\[.*?\]\(.*?\)', save_link, text)
+    # 2. Извлечение и валидация обложки (cover.image) из Front Matter
+    cover_data = post.get('cover', {})
+    cover_url = ""
+    if isinstance(cover_data, dict):
+        cover_image = cover_data.get('image', '')
+        if cover_image:
+            if not cover_image.startswith('http'):
+                cover_url = f"{DOMAIN}{cover_image}" if cover_image.startswith('/') else f"{DOMAIN}/{cover_image}"
+            else:
+                cover_url = cover_image
+
+    # 3. Формирование ссылки на Instant View
+    slug = post.get('slug', os.path.splitext(os.path.basename(file_path))[0])
+    iv_url = f"https://t.me/iv?url={DOMAIN}/posts/{slug}/&rhash={RHASH}"
     
-    # Теперь экранируем ВСЕ опасные символы в оставшемся тексте
-    escaped_text = ""
-    for char in text_hidden:
-        if char in escape_chars:
-            escaped_text += f"\\{char}"
+    # Автоопределение гибридного режима: если есть маркер резака, включаем hybrid автоматически
+    if '' in content and tg_mode == 'rich_only':
+        tg_mode = 'hybrid'
+        
+    # 4. Обработка режимов публикации
+    if tg_mode == 'hybrid':
+        if '' in content:
+            body = content.split('')[0].strip()
         else:
-            escaped_text += char
-            
-    # Возвращаем ссылки на место, но внутри самой ссылки (в URL) тоже нужно заэкранировать 
-    # символы вроде точек или дефисов, если они там есть, кроме скобок и самого каркаса.
-    # Для простоты: в скрытых ссылках мы уже имеем готовые валидные URL, 
-    # но ТГ требует экранировать дефисы и точки даже внутри URL в MarkdownV2!
-    for i, link in enumerate(links):
-        # Разбираем скрытую ссылку на [текст] и (url)
-        link_match = re.match(r'\[(.*?)\]\((.*?)\)', link)
-        if link_match:
-            link_text = link_match.group(1)
-            link_url = link_match.group(2)
-            
-            # Экранируем текст внутри ссылки
-            escaped_ltext = ""
-            for char in link_text:
-                if char in escape_chars:
-                    escaped_ltext += f"\\{char}"
-                else:
-                    escaped_ltext += char
-            
-            # В URL экранируем только самые критичные для ТГ символы: . - ) ( и т.д.
-            escaped_lurl = ""
-            for char in link_url:
-                if char in escape_chars:
-                    escaped_lurl += f"\\{char}"
-                else:
-                    escaped_lurl += char
-            
-            # Собираем обратно БЕЗ экранирования внешних скобок разметки
-            valid_tg_link = f"[{escaped_ltext}]({escaped_lurl})"
-            escaped_text = escaped_text.replace(f"__LINK_PLACEHOLDER_{i}__", valid_tg_link)
-            
-    return escaped_text
+            body = content.strip()
+        body += f"\n\n[Читать полную версию статьи в Instant View]({iv_url})"
+        
+    elif tg_mode == 'iv_only':
+        description = post.get('description', '')
+        body = f"### {title}\n\n{description}\n\n[Открыть Instant View]({iv_url})"
+        
+    else:  # rich_only (публикация текста целиком в рамках 32k символов)
+        body = content.strip()
+        
+    # 5. Интеграция обложки в начало сообщения (Rich Markdown нативно поддерживает блоки картинок)
+    if cover_url and tg_mode != 'iv_only':
+        body = f"![Обложка]({cover_url})\n\n" + body
+        
+    # 6. Добавление нативного заголовка H1, если его нет в начале текста
+    if title and not body.startswith(f"# {title}") and tg_mode != 'iv_only':
+        body = f"# {title}\n\n" + body
+        
+    return body
 
-def main():
-    bot_token = os.environ.get("TELEGRAM_BOT_TOKEN")
-    channel_id = os.environ.get("TELEGRAM_CHANNEL_ID")
-    target_file = os.environ.get("TARGET_MD_FILE")
+async def main(file_path):
+    bot_token = os.getenv("TELEGRAM_BOT_TOKEN")
+    channel_id = os.getenv("TELEGRAM_CHANNEL_ID")
     
     if not bot_token or not channel_id:
-        print("Ошибка: Не настроены токены TELEGRAM_BOT_TOKEN или TELEGRAM_CHANNEL_ID.")
+        print("Ошибка: Переменные окружения TELEGRAM_BOT_TOKEN или TELEGRAM_CHANNEL_ID не заданы в GitHub Secrets.")
         sys.exit(1)
         
-    if not target_file:
-        print("В текущем коммите нет измененных файлов в content/posts/. Пропускаем запуск.")
-        return
-
-    if not os.path.exists(target_file):
-        print(f"Ошибка: Файл {target_file} не найден в репозитории.")
-        sys.exit(1)
-
-    print(f"Обработка файла: {target_file}")
-    
-    with open(target_file, "r", encoding="utf-8") as f:
-        content = f.read()
-        
-    # Парсим Front Matter
-    meta_match = re.match(r"^---\s*\n(.*?)\n---\s*\n(.*)$", content, re.DOTALL)
-    if not meta_match:
-        print("Файл не содержит разметку Front Matter (---).")
-        return
-        
-    front_matter_raw = meta_match.group(1)
-    post_body = meta_match.group(2).strip()
+    bot = Bot(token=bot_token)
     
     try:
-        meta = yaml.safe_load(front_matter_raw)
-    except Exception as e:
-        print(f"Ошибка YAML: {e}")
-        sys.exit(1)
+        # Получаем очищенный и размеченный текст
+        rich_markdown_text = await transform_markdown(file_path)
         
-    title = meta.get("title", "Новая публикация")
-    
-    # Сборка ссылки на обложку
-    cover_url = None
-    if "cover" in meta and isinstance(meta["cover"], dict):
-        cover_img = meta["cover"].get("image")
-        if cover_img:
-            cover_url = f"{DOMAIN}{cover_img}" if cover_img.startswith("/") else f"{DOMAIN}/{cover_img}"
-
-    # Переводим относительные пути картинок в абсолютные веб-ссылки ДО экранирования
-    post_body = re.sub(r'\!\[(.*?)\]\((/images/.*?)\)', f'![\\1]({DOMAIN}\\2)', post_body)
-    
-    # Картинка-превью (если есть) оформляется как невидимая ссылка в начале
-    prefix = ""
-    if cover_url:
-        # Для невидимой ссылки используем специальный символ пустого пространства
-        prefix = f"[ ]({cover_url})"
-    
-    # Формируем финальное сообщение: заголовок делаем жирным вручную
-    # Важно: сначала экранируем чистый заголовок и чистое тело
-    safe_title = escape_markdown_v2(title)
-    safe_body = escape_markdown_v2(post_body)
-    
-    # Собираем всё вместе. Конструкцию жирности `*...*` добавляем уже поверх экранированного текста!
-    final_text = f"{prefix}*{safe_title}*\n\n{safe_body}"
-
-    # Делаем запрос к официальному Bot API
-    url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
-    payload = {
-        "chat_id": channel_id,
-        "text": final_text,
-        "parse_mode": "MarkdownV2",
-        "disable_web_page_preview": False
-    }
-    
-    req = urllib.request.Request(
-        url, 
-        data=json.dumps(payload).encode('utf-8'), 
-        headers={'Content-Type': 'application/json'}
-    )
-    
-    print("Отправка сообщения в Telegram через официальный sendMessage MarkdownV2...")
-    try:
-        with urllib.request.urlopen(req) as response:
-            res_data = response.read().decode('utf-8')
-            print(f"Успешный ответ от ТГ: {res_data}")
-    except urllib.error.HTTPError as e:
-        print(f"Ошибка Telegram API (HTTP {e.code}): {e.read().decode('utf-8')}")
-        sys.exit(1)
+        # Контроль жесткого лимита Bot API 10.1 (32 768 символов UTF-8)
+        if len(rich_markdown_text) > 32768:
+            print(f"Предупреждение: Текст превышает лимит API 10.1 ({len(rich_markdown_text)} симв.). Сжатие...")
+            rich_markdown_text = rich_markdown_text[:32760] + "\n\n..."
+            
+        # Отправка структурированного Rich-сообщения
+        await bot.send_rich_message(
+            chat_id=channel_id,
+            rich_message=InputRichMessage(markdown=rich_markdown_text)
+        )
+        print(f"Успех! Пост из файла {file_path} успешно опубликован в Telegram.")
+        
     except Exception as e:
-        print(f"Ошибка сети: {e}")
+        print(f"Критическая ошибка при отправке через sendRichMessage: {e}")
         sys.exit(1)
+    finally:
+        # Корректно закрываем сессию aiogram
+        await bot.session.close()
 
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) < 2:
+        print("Ошибка запуска: Скрипту не передан путь к файлу публикации.")
+        sys.exit(1)
+        
+    target_file = sys.argv[1]
+    asyncio.run(main(target_file))

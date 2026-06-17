@@ -21,9 +21,9 @@ jobs:
         with:
           python-version: '3.11'
 
-      # 3. Ставим парсер PyYAML
+      # 3. Установка зависимостей под Bot API 10.1
       - name: Install dependencies
-        run: pip install pyyaml
+        run: pip install pyyaml aiogram python-frontmatter
 
       # 4. Вычисляем точное имя измененного файла
       - name: Get changed markdown file
