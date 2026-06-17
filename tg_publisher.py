@@ -66,19 +66,23 @@ async def main():
             else:
                 cover_url = f"{DOMAIN}/{cover_img}"
 
+    # Хитрый трюк: собираем маркеры из кусочков, чтобы Гитхаб не вырезал их из кода скрипта!
+    safe_html_comment = "<!" + "--tg--" + ">"
+    safe_old_marker = "---" + "tg" + "---"
+
     # 4. Обработка контента под выбранный сценарий (tg_mode)
     if tg_mode == "iv_only":
         print("Режим [iv_only]: Формируется короткая карточка со ссылкой на Instant View.")
         final_text = f"# {title}\n\n[⚡ Читать в Instant View]({iv_url})"
         
     else:
-        # Сценарий hybrid: Отсекаем хвост лонгрида по маркеру комментария или старому ---tg---
+        # Сценарий hybrid: Отсекаем хвост лонгрида по безопасно собранным маркерам
         if tg_mode == "hybrid":
             print("Режим [hybrid]: Вырезаем превью по маркеру.")
-            if "" in post_body:
-                post_body = post_body.split("")[0].strip()
-            elif "---tg---" in post_body:
-                post_body = post_body.split("---tg---")[0].strip()
+            if safe_html_comment in post_body:
+                post_body = post_body.split(safe_html_comment)[0].strip()
+            elif safe_old_marker in post_body:
+                post_body = post_body.split(safe_old_marker)[0].strip()
             else:
                 print("Предупреждение: Маркер разделения не найден. Текст отправится целиком.")
         else:
@@ -100,12 +104,12 @@ async def main():
         if tg_mode == "hybrid":
             final_text += f"\n\n[⚡ Читать статью целиком в Instant View]({iv_url})"
 
-    # 5. Стреляем в Bot API 10.1 через метод send_rich_message (исправлен аргумент на rich_message)
+    # 5. Стреляем в Bot API 10.1 через метод send_rich_message
     print(f"Отправка Rich-сообщения в канал в режиме: {tg_mode}")
     try:
         await bot.send_rich_message(
             chat_id=channel_id,
-            rich_message=final_text, # aiogram 3.29.0+ требует именно этот параметр вместо text
+            rich_message=final_text,
             formatting_options="rich_markdown"
         )
         print("Публикация успешно размещена в канале!")
