@@ -9,6 +9,9 @@ from aiogram.types import InputRichMessage
 DOMAIN = "https://kawoosique.com"
 RHASH = "5dda3eb0d9e2b1"
 
+# Динамическая сборка маркера, чтобы веб-интерфейсы не вырезали его как HTML-комментарий
+TG_MARKER = "<!" + "--" + "tg" + "--" + ">"
+
 async def transform_markdown(file_path):
     """
     Парсит Front Matter заметки Obsidian, преобразует относительные пути
@@ -41,13 +44,13 @@ async def transform_markdown(file_path):
     iv_url = f"https://t.me/iv?url={DOMAIN}/posts/{slug}/&rhash={RHASH}"
     
     # Автоопределение гибридного режима: если есть маркер резака, включаем hybrid автоматически
-    if '' in content and tg_mode == 'rich_only':
+    if TG_MARKER in content and tg_mode == 'rich_only':
         tg_mode = 'hybrid'
         
     # 4. Обработка режимов публикации
     if tg_mode == 'hybrid':
-        if '' in content:
-            body = content.split('')[0].strip()
+        if TG_MARKER in content:
+            body = content.split(TG_MARKER)[0].strip()
         else:
             body = content.strip()
         body += f"\n\n[Читать полную версию статьи в Instant View]({iv_url})"
@@ -109,7 +112,7 @@ async def main(file_path):
 if __name__ == "__main__":
     target_file = None
     
-    # 1. Сначала проверяем аргументы командной строки (если запускаем вручную)
+    # 1. Сначала проверяем аргументы командной строки
     if len(sys.argv) >= 2:
         target_file = sys.argv[1]
         
@@ -117,7 +120,7 @@ if __name__ == "__main__":
     elif os.getenv("TARGET_MD_FILE"):
         target_file = os.getenv("TARGET_MD_FILE")
         
-    # 3. Если файла вообще нигде нет — прерываемся с понятной ошибкой
+    # 3. Если файла вообще нигде нет
     if not target_file or target_file.strip() == "":
         print("Ошибка запуска: Путь к файлу не передан ни через аргументы, ни через env-переменную TARGET_MD_FILE.")
         sys.exit(1)
