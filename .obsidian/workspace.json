@@ -83,12 +83,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/posts/test-hybrid.md",
+                "file": "content/posts/test-simple.md",
                 "mode": "preview",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "test-hybrid"
+              "title": "test-simple"
             }
           }
         ],
@@ -254,8 +254,9 @@
   },
   "active": "313fff5ef52d6559",
   "lastOpenFiles": [
-    "content/posts/test-iv.md",
     "content/posts/test-hybrid.md",
+    "content/posts/test-simple.md",
+    "content/posts/test-iv.md",
     "content/posts/coffee_02.md",
     "public/assets/css/stylesheet.9b42e0dfafec85c2898187a3cbfdceede1b8e525bda08805d4678a9cb316a44b.css",
     "public/assets/css/stylesheet.3ef4ed4ec8b3093f7c208c10f14de59fae2e061815a79ca018b84d8b81371581.css",
