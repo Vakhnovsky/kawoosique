@@ -1,55 +1,128 @@
+/* ==========================================================================
+   МЕНЮ И ШАПКА САЙТА (УМНЫЙ АДАПТИВ)
+   ========================================================================== */
 
-/* Скрываем упоминание Hugo */
-.footer span:last-of-type {
-    display: none !important;
+.nav {
+    display: flex;
+    flex-wrap: nowrap !important;
+    align-items: center;
+    justify-content: space-between;
 }
 
-/* Настраиваем отображение миниатюр постов на главной */
-/* Контейнер блока постов на главной */
-/*
+.logo a img {
+    height: 40px !important;
+    width: auto !important;
+    transition: height 0.2s ease;
+}
+
+#menu {
+    display: flex;
+    flex-direction: row !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+#menu li {
+    margin-inline-start: 15px !important;
+}
+
+/* Мобильная шапка (экраны менее 700px) */
+@media screen and (max-width: 700px) {
+    .logo a img {
+        height: 24px !important; 
+    }
+    #menu a {
+        font-size: 0.85rem !important;
+        letter-spacing: 0 !important;
+    }
+    #menu li {
+        margin-inline-start: 10px !important;
+    }
+    .header {
+        padding: 10px 0 !important;
+    }
+}
+
+/* ==========================================================================
+   ГЛАВНАЯ СТРАНИЦА: ЖЕСТКОЕ СХЛОПЫВАНИЕ ВОЗДУХА
+   ========================================================================== */
+
+.main {
+    min-height: auto !important;
+    padding-top: 0 !important; /* Ужали верхний отступ всей страницы */
+}
+
+.profile_inner {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    margin: 0 auto !important; /* Убрали дефолтное margin: auto, которое создавало пустоту */
+    padding: 0 20px 0 20px !important; /* Ужали внутренние паддинги */
+}
+
+/* Круглый прицел-аватар */
+.profile_inner .profile_box img {
+    max-width: 150px !important; /* Слегка уменьшили, чтобы выиграть высоту на мобиле */
+    height: auto !important;
+    margin: 0 auto 5px auto !important;
+}
+
+/* Слоган */
+.profile_inner h1 + font, 
+.profile_inner .profile_box + p {
+    margin-top: 0 !important;
+    margin-bottom: 10px !important;
+}
+
+/* Кнопки "Читать публикации" и "Telegram" */
+.profile_inner .buttons {
+    margin-bottom: 0 !important; /* Прижали кнопки к блоку последних постов */
+}
+
+/* ==========================================================================
+   АККУРАТНЫЕ КАРТОЧКИ ПОСТОВ (ПЛИТКА)
+   ========================================================================== */
+
 .recent-posts-container {
     max-width: var(--main-width);
-    margin: 40px auto 0 auto;
+    margin: 0 auto !important;
     padding: 0 20px;
 }
 
 .recent-posts-title {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-    opacity: 0.8;
+    font-size: 1.05rem;
+    margin-bottom: 10px;
+    opacity: 0.7;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
-*/
-/* Сетка карточек */
-/*
+
 .compact-posts-list {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px; /* Карточки сидят плотнее друг к другу */
 }
-*/
 
-/* Сама карточка */
 .compact-post-card {
     background: var(--theme);
     border: 1px solid var(--border);
     border-radius: 8px;
     display: flex;
+    flex-direction: row;
     overflow: hidden;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
 .compact-post-card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-1px);
     border-color: var(--primary);
 }
 
-/* Миниатюра слева */
 .compact-post-cover {
-    width: 200px;
-    min-width: 200px;
-    height: 140px;
+    flex: 0 0 30%;
+    max-width: 150px;
+    height: 95px;
     overflow: hidden;
 }
 
@@ -59,112 +132,57 @@
     object-fit: cover;
 }
 
-/* Текстовая часть справа */
-/*
 .compact-post-content {
-    padding: 15px 20px;
+    flex: 1;
+    padding: 8px 15px;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
 .compact-post-content h2 {
-    margin: 0 0 8px 0;
-    font-size: 1.3rem;
-    line-height: 1.2;
-}
-*/
-.compact-post-content h2 a {
-    color: var(--primary);
+    margin: 0 0 3px 0 !important;
+    font-size: 1.1rem;
+    line-height: 1.25;
 }
 
 .compact-post-content .entry-content {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--secondary);
-    line-height: 1.4;
-    margin-bottom: 8px;
+    line-height: 1.35;
+    margin-bottom: 3px;
 }
 
 .compact-post-content .entry-footer {
-    font-size: 0.8rem;
+    font-size: 0.72rem;
     color: var(--secondary);
 }
 
-/* Адаптив под мобилки: перестраиваем в один столбец */
+/* --------------------------------------------------------------------------
+   ЖЕСТКАЯ ОПТИМИЗАЦИЯ ПОД МОБИЛЬНЫЕ (МЕНЕЕ 600px)
+   -------------------------------------------------------------------------- */
 @media screen and (max-width: 600px) {
-    .compact-post-card {
-        flex-direction: column;
+    .main {
+        padding-top: 5px !important; /* Экстремально прижали к шапке */
     }
     
-    /*
-    .compact-post-cover {
-        width: 100%;
-        height: 160px;
+    .profile_inner {
+        padding-top: 5px !important;
     }
-    */
+
+    .compact-post-card {
+        flex-direction: column; /* Карточка перестраивается вертикально */
+    }
+    
+    .compact-post-cover {
+        flex: none;
+        max-width: 100%;
+        width: 100%;
+        height: 120px; /* Ужали высоту мобильной обложки поста */
+    }
 }
 
-/* ==========================================================================
-   ОПТИМИЗАЦИЯ СВОБОДНОГО ПРОСТРАНСТВА И ОТСТУПОВ (УБИРАЕМ ВОЗДУХ)
-   ========================================================================== */
-
-/* 1. Ужимаем отступ между верхней шапкой (header) и блоком профиля */
-.main {
-    min-height: auto !important; /* Убираем принудительную растяжку на весь экран */
-    padding-top: 0 !important; /* Сжимаем гигантский верхний отступ */
+/* Чистим подвал */
+.footer span:last-of-type {
+    display: none !important;
 }
-
-.profile_inner {
-    margin: 0 auto 0 auto !important; /* Двигаем круглый прицел ближе к шапке */
-    padding: 0 !important;
-}
-
-/* Изменяем дефолтный нижний отступ у аватара, чтобы приблизить слоган */
-.profile_inner .profile_box img {
-    margin-bottom: 10px !important;
-}
-
-/* 2. Сжимаем зону между кнопками профиля и блоком последних постов */
-.profile_inner .social-icons {
-    margin-top: 15px !important; /* Если иконки появятся */
-}
-
-/* Контейнер наших постов на главной двигаем сильно выше */
-.recent-posts-container {
-    max-width: var(--main-width);
-    margin: 15px auto 0 auto !important; /* Подтягиваем весь блок постов вверх */
-    padding: 0 20px;
-}
-
-/* Ужимаем отступ под заголовком "Последние публикации" */
-.recent-posts-title {
-    font-size: 1.2rem;
-    margin-bottom: 15px !important; 
-    opacity: 0.8;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-/* 3. Делаем сетку карточек плотнее */
-.compact-posts-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px !important; /* Карточки теперь лежат аккуратно друг за другом */
-}
-
-/* Дополнительно ужимаем внутренние отступы в самой карточке, чтобы она была аккуратнее */
-.compact-post-content {
-    padding: 10px 15px !important; /* Меньше пустоты вокруг текста внутри плитки */
-}
-
-.compact-post-content h2 {
-    margin: 0 0 4px 0 !important; /* Прижимаем заголовок поста к его описанию */
-}
-
-/* Ужимаем миниатюру, чтобы карточка по высоте стала еще компактнее */
-.compact-post-cover {
-    width: 180px;
-    min-width: 180px;
-    height: 110px; /* Идеальная пропорция для компактного информера */
-}
-

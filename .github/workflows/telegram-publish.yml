@@ -1,0 +1,41 @@
+name: Publish Post to Telegram
+
+on:
+  push:
+    paths:
+      - 'content/posts/**.md'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Забираем код репозитория
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2 # Нужно для git diff, чтобы сравнить текущий коммит с предыдущим
+
+      # 2. Разворачиваем чистый Python (без ломающего сборку кэша)
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # 3. Установка зависимостей под Bot API 10.1
+      - name: Install dependencies
+        run: pip install pyyaml aiogram python-frontmatter
+
+      # 4. Вычисляем точное имя измененного файла
+      - name: Get changed markdown file
+        id: changed-files
+        run: |
+          CHANGED_FILE=$(git diff --name-only HEAD~1 HEAD | grep -E '^content/posts/.*\.md$' | head -n 1)
+          echo "TARGET_MD_FILE=$CHANGED_FILE" >> $GITHUB_ENV
+
+      # 5. Запускаем нашего издателя
+      - name: Run publisher script
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+          TARGET_MD_FILE: ${{ env.TARGET_MD_FILE }}
+        run: python tg_publisher.py
