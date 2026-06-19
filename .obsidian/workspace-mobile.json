@@ -27,16 +27,30 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/posts/coffee_06.md",
-                "mode": "preview",
+                "file": "content/posts/coffee_02.md",
+                "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "coffee_06"
+              "title": "coffee_02"
+            }
+          },
+          {
+            "id": "82cd45e432176f85",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "content/posts/20260619-test-phone.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "20260619-test-phone"
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -181,52 +195,52 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "a5e3dbc11ba4d6c3",
+  "active": "82cd45e432176f85",
   "lastOpenFiles": [
-    "content/posts/test-phone.md",
-    "public/avatar.png",
-    "/public/avatar.png",
-    "static/sq_logo.svg",
-    "static/main_logo.svg",
-    "static/images/09.jpg",
-    "static/images/08.jpg",
-    "static/images/07.jpg",
-    "static/images/06.jpg",
-    "static/images/05.jpg",
-    "static/images/04.jpg",
-    "public/tags/путешествия/page/1/index.html",
-    "public/tags/путешествия/index.xml",
-    "public/tags/путешествия/index.html",
-    "public/tags/монако/page/1/index.html",
-    "public/tags/монако/index.xml",
-    "public/tags/монако/index.html",
-    "public/tags/кофе/page/1/index.html",
-    "public/tags/кофе/index.xml",
-    "public/tags/кофе/index.html",
-    "public/tags/specialty/page/1/index.html",
-    "content/posts/coffee_10.md",
-    "content/posts/coffee_09.md",
-    "content/posts/coffee_08.md",
-    "content/posts/coffee_07.md",
-    "content/posts/coffee_06.md",
-    "content/posts/coffee_05.md",
-    "content/posts/coffee_04.md",
-    "content/posts/coffee_03.md",
-    "/content/posts/coffee_10.md",
-    "/content/posts/coffee_09.md",
-    "/content/posts/coffee_08.md",
-    "/content/posts/coffee_07.md",
-    "/content/posts/coffee_06.md",
-    "/content/posts/coffee_05.md",
-    "/content/posts/coffee_04.md",
-    "/content/posts/coffee_03.md",
-    "/content/posts/coffee_02.md",
+    "content/drafts/Markdown-tg-styles.md",
+    "content/posts/20260619-test-phone.md",
     "content/posts/coffee_02.md",
-    "/content/posts/coffee-in-monaco.md",
-    "content/posts/coffee-in-monaco.md",
-    "content/posts/nozh.md",
-    "content/search.md",
-    "content/posts/test-obsidian.md",
-    "content/posts/obsidian-template-test.md"
+    "static/images/specialty.jpg",
+    "content/posts/20260619-test-from-phone.md",
+    "content/posts/test-rich.md",
+    "content/posts/test-simple.md",
+    "_templates/TG-only.md",
+    "_templates/TG-HUGO-COVER.md",
+    "_templates/TG-COVER.md",
+    "/tg_publisher.py",
+    "/content/posts/markdown-test.md",
+    "content/posts/markdown-test.md",
+    "/content/posts",
+    "/content/drafts/Markdown-tg-styles.md",
+    "/_templates/TG-only.md",
+    "/_templates/TG-HUGO-COVER.md",
+    "/_templates/TG-COVER.md",
+    "/themes/PaperMod",
+    "/themes",
+    "/content/drafts",
+    "content/drafts",
+    "/content",
+    "/_templates",
+    "content/posts/coffee_06.md",
+    "tg_publisher.py",
+    "public/assets/css/stylesheet.f75f6b80815c774feb41014b94dbc04d5a2cfb8b68aa440d3570287ec2296d98.css",
+    "content/posts/test-hybrid.md",
+    "static/images/15.jpg",
+    "static/images/14.jpg",
+    "static/images/13.jpg",
+    "static/images/12.jpg",
+    "static/images/11.jpg",
+    "/content/posts/test-simple.md",
+    "/content/posts/test-rich.md",
+    "/content/posts/test-hybrid.md",
+    "/content/posts/test-iv.md",
+    "content/posts/test-iv.md",
+    "/static/images/15.jpg",
+    "/static/images/14.jpg",
+    "/static/images/13.jpg",
+    "/static/images/12.jpg",
+    "content/posts/test-phone.md",
+    "content/posts/coffee_10.md",
+    "content/posts/coffee_09.md"
   ]
 }
