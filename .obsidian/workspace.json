@@ -43,7 +43,7 @@
               "state": {
                 "file": "content/posts/20260619-intro.md",
                 "mode": "source",
-                "source": false
+                "source": true
               },
               "icon": "lucide-file",
               "title": "20260619-intro"
@@ -212,8 +212,11 @@
   },
   "active": "4de1b3bdaf39fbd4",
   "lastOpenFiles": [
-    "content/drafts/20260619-test-phone.md",
+    "_templates/TG-HUGO-COVER.md",
     "content/posts/20260619-intro.md",
+    "_templates/TG-only.md",
+    "_templates/TG-COVER.md",
+    "content/drafts/20260619-test-phone.md",
     "static/images/logo-main.png",
     "static/images/logo_main.png",
     "static/images/KAWOOSIQUE LOGO-01.png",
@@ -238,8 +241,6 @@
     "content/drafts/coffee_03.md",
     "content/drafts/coffee_02.md",
     "content/posts/coffee-in-monaco.md",
-    "content/posts/coffee_02.md",
-    "content/posts/20260619-test-phone.md",
     "static/images/specialty.jpg",
     "content/drafts",
     "public/assets/css/stylesheet.9b42e0dfafec85c2898187a3cbfdceede1b8e525bda08805d4678a9cb316a44b.css",
