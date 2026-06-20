@@ -1,10 +1,13 @@
 ---
-title: "Проверка стилей Markdown"
+title: Проверка стилей Markdown
 date: 2026-06-17T21:02:00+03:00
-draft: false
-tg_mode: "rich_only"
-tags: ["мысли", "заметка"]
-categories: ["Telegram"]
+draft: true
+tg_mode: rich_only
+tags:
+  - мысли
+  - заметка
+categories:
+  - Telegram
 ---
 
 Ну, что ж. Это первая статья, написанная в навороченном форматировании. Накидаю вских форматирований, тестовых кусков...

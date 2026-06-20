@@ -1,7 +1,7 @@
 ---
-title: "Пост из Obsidian"
+title: Пост из Obsidian
 date: 2026-06-05T16:40:00+03:00
-draft: false
+draft: true
 ---
 
 Привет, это проверка публикации прямо из интерфейса Obsidian!

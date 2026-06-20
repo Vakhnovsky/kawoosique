@@ -1,7 +1,7 @@
 ---
-title: "test-phone"
+title: test-phone
 date: 2026-06-06T20:49:00+03:00
-draft: false
+draft: true
 tags: []
 categories: []
 ---

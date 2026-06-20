@@ -1,9 +1,9 @@
 ---
-title: "Ручные кофемолки: Comandante против Timemore"
-date: 2026-06-07T16:08:00+03:00
-draft: false
+title: "Феномен Geisha: почему это зерно стоит космических денег"
+date: 2026-06-07T16:06:00+03:00
+draft: true
 cover:
-    image: "/images/08.jpg"
+  image: /images/06.jpg
 ---
 ### Английский перевод 1914 года, H. Rackham
 

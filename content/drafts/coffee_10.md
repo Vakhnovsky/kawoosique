@@ -1,9 +1,9 @@
 ---
-title: "Секреты обжарки: от зеленого зерна к первому крэку"
-date: 2026-06-07T16:03:00+03:00
-draft: false
+title: "Холодный экстракт: идеальный рецепт Cold Brew"
+date: 2026-06-07T16:09:00+03:00
+draft: true
 cover:
-    image: "/images/03.jpg"
+  image: /images/09.jpg
 ---
 ### Английский перевод 1914 года, H. Rackham
 

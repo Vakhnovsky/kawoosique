@@ -1,9 +1,9 @@
 ---
 title: "Кофейная альтернатива: разбор воронки V60"
 date: 2026-06-07T16:01:00+03:00
-draft: false
+draft: true
 cover:
-    image: "/images/01.jpg"
+  image: /images/01.jpg
 ---
 ### Классический текст Lorem Ipsum, используемый с XVI века
 

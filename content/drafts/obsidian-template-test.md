@@ -1,7 +1,7 @@
 ---
 title: Как я прикрутил шаблоны к Обсидиану
 date: 2026-06-06T17:49:00+03:00
-draft: false
+draft: true
 tags: []
 categories: []
 ---
