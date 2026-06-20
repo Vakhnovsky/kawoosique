@@ -212,8 +212,11 @@
   },
   "active": "4de1b3bdaf39fbd4",
   "lastOpenFiles": [
-    "_templates/TG-HUGO-COVER.md",
+    "content/drafts/coffee_02.md",
     "content/posts/20260619-intro.md",
+    "static/images/avatar-coffee.png",
+    "static/images/19 Coffee.png",
+    "_templates/TG-HUGO-COVER.md",
     "_templates/TG-only.md",
     "_templates/TG-COVER.md",
     "content/drafts/20260619-test-phone.md",
@@ -239,8 +242,6 @@
     "content/drafts/coffee_05.md",
     "content/drafts/coffee_04.md",
     "content/drafts/coffee_03.md",
-    "content/drafts/coffee_02.md",
-    "content/posts/coffee-in-monaco.md",
     "static/images/specialty.jpg",
     "content/drafts",
     "public/assets/css/stylesheet.9b42e0dfafec85c2898187a3cbfdceede1b8e525bda08805d4678a9cb316a44b.css",
@@ -250,8 +251,6 @@
     "static/images/08.jpg",
     "static/images/07.jpg",
     "static/images/06.jpg",
-    "static/images/05.jpg",
-    "static/images/04.jpg",
     "static/images",
     "_templates"
   ]
