@@ -41,8 +41,8 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/posts/markdown-test/index.md",
-                "mode": "preview",
+                "file": "content/posts/20260619-test-phone/index.md",
+                "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
@@ -212,8 +212,8 @@
   },
   "active": "4de1b3bdaf39fbd4",
   "lastOpenFiles": [
-    "content/posts/20260619-test-phone/index.md",
     "content/posts/markdown-test/index.md",
+    "content/posts/20260619-test-phone/index.md",
     "content/drafts/coffee_02.md",
     "content/posts/markdown-test/markdown-test.md",
     "content/posts/markdown-test/03.jpg",
