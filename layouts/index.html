@@ -15,7 +15,17 @@
             <article class="compact-post-card">
                 {{- if .Params.cover.image -}}
                 <div class="compact-post-cover">
-                    <img src="{{ .Params.cover.image | relURL }}" alt="{{ .Title }}">
+                    {{- /* Вычисляем правильный URL обложки с поддержкой Page Bundles */ -}}
+                    {{- $cover_url := .Params.cover.image | relURL -}}
+                    {{- if .Params.cover.relative -}}
+                        {{- $resource := .Resources.GetMatch .Params.cover.image -}}
+                        {{- if $resource -}}
+                            {{- $cover_url = $resource.RelPermalink -}}
+                        {{- else -}}
+                            {{- $cover_url = printf "%s%s" .RelPermalink .Params.cover.image -}}
+                        {{- end -}}
+                    {{- end -}}
+                    <img src="{{ $cover_url }}" alt="{{ .Title }}">
                 </div>
                 {{- end -}}
                 <div class="compact-post-content">

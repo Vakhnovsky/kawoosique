@@ -1,4 +1,5 @@
 import os
+import re
 import sys
 import asyncio
 import frontmatter
@@ -24,71 +25,81 @@ async def transform_markdown(file_path):
     tg_mode = post.get('tg_mode', 'rich_only')
     content = post.content
     
-    # 1. Автоматическая трансформация путей картинок: /images/X.jpg -> https://kawoosique.com/images/X.jpg
-    content = content.replace('](/', f']({DOMAIN}/')
-    content = content.replace('="/', f'="{DOMAIN}/')
+    # Извлекаем имя папки поста для формирования путей в Page Bundles (например, '20260619-test-phone')
+    post_slug = os.path.basename(os.path.dirname(file_path))
     
-    # 2. Фикс одиночных переносов строк из Obsidian (Спецификация GFM Markdown)
-    # Если строка текстовая, добавляем в её конец два пробела, чтобы Telegram сделал жесткий перенос.
-    processed_lines = []
-    for line in content.splitlines():
-        stripped = line.strip()
-        # Не трогаем пустые строки и строки системной разметки (заголовки, списки, таблицы)
-        if not stripped or stripped.startswith(('#', '-', '*', '+', '|')) or stripped.endswith('|'):
-            processed_lines.append(line)
+    # 1. Автоматическая трансформация путей стандартных картинок: ![alt](phone.jpg) или ![alt](/images/knife.jpg)
+    def repl_standard_image(match):
+        alt = match.group(1)
+        img_path = match.group(2)
+        if img_path.startswith(("http://", "https://")):
+            return match.group(0)
+        elif img_path.startswith("/"):
+            # Старые глобальные картинки от корня
+            return f"![{alt}]({DOMAIN}{img_path})"
         else:
-            processed_lines.append(line + "  ")
-    content = "\n".join(processed_lines)
-    
-    # 3. Извлечение и валидация обложки (cover.image) из Front Matter
-    cover_data = post.get('cover', {})
-    cover_url = ""
-    if isinstance(cover_data, dict):
-        cover_image = cover_data.get('image', '')
-        if cover_image:
-            if not cover_image.startswith('http'):
-                cover_url = f"{DOMAIN}{cover_image}" if cover_image.startswith('/') else f"{DOMAIN}/{cover_image}"
-            else:
-                cover_url = cover_image
+            # Относительные картинки внутри Page Bundles
+            clean_path = img_path.lstrip("./")
+            return f"![{alt}]({DOMAIN}/posts/{post_slug}/{clean_path})"
 
-    # 4. Формирование ссылки на Instant View (оставляем для совместимости режимов hybrid/iv_only)
-    slug = post.get('slug', os.path.splitext(os.path.basename(file_path))[0])
-    iv_url = f"https://t.me/iv?url={DOMAIN}/posts/{slug}/&rhash={RHASH}"
-    
-    if TG_MARKER in content and tg_mode == 'rich_only':
-        tg_mode = 'hybrid'
-        
-    # 5. Обработка режимов публикации
-    if tg_mode == 'hybrid':
-        if TG_MARKER in content:
-            body = content.split(TG_MARKER)[0].strip()
+    content = re.sub(r"!\[(.*?)\]\((.*?)\)", repl_standard_image, content)
+
+    # 2. Автоматическая трансформация Obsidian-картинок: ![[phone.jpg]] или ![[phone.jpg|300]]
+    def repl_obsidian_image(match):
+        inner = match.group(1)
+        # Отсекаем параметры ширины (например, |300)
+        clean_name = inner.split("|")[0].strip()
+        if clean_name.startswith(("http://", "https://")):
+            return f"![изображение]({clean_name})"
+        elif clean_name.startswith("/"):
+            return f"![изображение]({DOMAIN}{clean_name})"
         else:
-            body = content.strip()
-        body += f"\n\n[Читать полную версию статьи в Instant View]({iv_url})"
+            clean_name = clean_name.lstrip("./")
+            return f"![изображение]({DOMAIN}/posts/{post_slug}/{clean_name})"
+
+    content = re.sub(r"!\[\[(.*?)\]\]", repl_obsidian_image, content)
+
+    # 3. Преобразуем обычные внутренние ссылки (начинающиеся с /), делая их абсолютными
+    def repl_standard_link(match):
+        text = match.group(1)
+        link_path = match.group(2)
+        if link_path.startswith("/") and not link_path.startswith("//"):
+            return f"[{text}]({DOMAIN}{link_path})"
+        return match.group(0)
+
+    content = re.sub(r"\[(.*?)\]\((.*?)\)", repl_standard_link, content)
+    
+    # 4. Фикс одиночных переносов строк из Obsidian (Спецификация GFM Markdown)
+    blocks = content.split('\n\n')
+    processed_blocks = []
+    for block in blocks:
+        if any(block.startswith(p) for p in ['#', '-', '*', '>', '`', '|']) or '```' in block:
+            processed_blocks.append(block)
+        else:
+            lines = [line.strip() for line in block.splitlines()]
+            clean_block = ' '.join([l for l in lines if l])
+            processed_blocks.append(clean_block)
+    content = '\n\n'.join(processed_blocks)
+
+    # 5. Интеграция Instant View
+    iv_link = f"https://t.me/iv?url={DOMAIN}/posts/{post_slug}/&rhash={RHASH}"
+    invisible_char = "﻿" # Zero Width No-Break Space
+    
+    if tg_mode == 'iv_only':
+        text = f"[{invisible_char}]({iv_link})*{title}*\n\n{iv_link}"
+    elif tg_mode == 'rich_iv':
+        text = f"[{invisible_char}]({iv_link})*{title}*\n\n{content}\n\n[Читать в Instant View]({iv_link})"
+    else: # rich_only
+        text = f"*{title}*\n\n{content}" if title else content
         
-    elif tg_mode == 'iv_only':
-        description = post.get('description', '')
-        body = f"### {title}\n\n{description}\n\n[Открыть Instant View]({iv_url})"
-        
-    else:  # rich_only (чистый красивый лонгрид без лишних внешних ссылок)
-        body = content.strip()
-        
-    # 6. Интеграция обложки в начало сообщения
-    if cover_url and tg_mode != 'iv_only':
-        body = f"![Обложка]({cover_url})\n\n" + body
-        
-    # 7. Добавление нативного заголовка H1, если его нет в начале текста
-    if title and not body.startswith(f"# {title}") and tg_mode != 'iv_only':
-        body = f"# {title}\n\n" + body
-        
-    return body
+    return text
 
 async def main(file_path):
     bot_token = os.getenv("TELEGRAM_BOT_TOKEN")
-    channel_id = os.getenv("TELEGRAM_CHANNEL_ID")
+    channel_id = os.getenv("TELEGRAM_CHAT_ID")
     
     if not bot_token or not channel_id:
-        print("Ошибка: Переменные окружения TELEGRAM_BOT_TOKEN или TELEGRAM_CHANNEL_ID не заданы в GitHub Secrets.")
+        print("Ошибка: Переменные окружения TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID не заданы в GitHub Secrets.")
         sys.exit(1)
         
     bot = Bot(token=bot_token)
@@ -120,12 +131,9 @@ if __name__ == "__main__":
     target_file = None
     if len(sys.argv) >= 2:
         target_file = sys.argv[1]
-    elif os.getenv("TARGET_MD_FILE"):
-        target_file = os.getenv("TARGET_MD_FILE")
         
-    if not target_file or target_file.strip() == "":
-        print("Ошибка запуска: Путь к файлу не передан.")
+    if not target_file:
+        print("Ошибка: Не указан путь к файлу в аргументах скрипта.")
         sys.exit(1)
         
-    print(f"Запуск публикации для файла: {target_file}")
     asyncio.run(main(target_file))
