@@ -25,56 +25,47 @@ async def transform_markdown(file_path):
     tg_mode = post.get('tg_mode', 'rich_only')
     content = post.content
     
-    # Извлекаем имя папки поста для формирования путей в Page Bundles (например, '20260619-test-phone')
-    post_slug = os.path.basename(os.path.dirname(file_path))
+    # 1. Интеллектуальное определение слага поста для Page Bundles и плоской структуры
+    filename = os.path.basename(file_path)
+    if filename == "index.md":
+        # Если это Page Bundle (content/posts/folder/index.md) -> берем имя папки
+        slug = os.path.basename(os.path.dirname(file_path))
+        is_bundle = True
+    else:
+        # Если это старая плоская структура (content/posts/name.md) -> берем имя файла
+        slug = os.path.splitext(filename)[0]
+        is_bundle = False
+        
+    # 2. Автоматическая трансформация путей картинок
+    # Сначала обрабатываем глобальные пути, начинающиеся со слэша /
+    content = content.replace('](/', f']({DOMAIN}/')
+    content = content.replace('="/', f'="{DOMAIN}/')
     
-    # 1. Автоматическая трансформация путей стандартных картинок: ![alt](phone.jpg) или ![alt](/images/knife.jpg)
-    def repl_standard_image(match):
-        alt = match.group(1)
-        img_path = match.group(2)
-        if img_path.startswith(("http://", "https://")):
-            return match.group(0)
-        elif img_path.startswith("/"):
-            # Старые глобальные картинки от корня
-            return f"![{alt}]({DOMAIN}{img_path})"
-        else:
-            # Относительные картинки внутри Page Bundles
-            clean_path = img_path
-            if clean_path.startswith("./"):
-                clean_path = clean_path[2:]
-            clean_path = clean_path.lstrip("/")
-            return f"![{alt}]({DOMAIN}/posts/{post_slug}/{clean_path})"
+    # Если это Page Bundle, переводим все относительные картинки в абсолютные URL
+    if is_bundle:
+        # Стандартные Markdown-картинки: ![alt](phone.jpg) или ![alt](./phone.jpg)
+        def repl_standard_image(match):
+            alt = match.group(1)
+            img_path = match.group(2)
+            if img_path.startswith(("http://", "https://", "/")):
+                return match.group(0) # Пропускаем внешние и глобальные
+            clean_path = img_path.lstrip("./")
+            return f"![{alt}]({DOMAIN}/posts/{slug}/{clean_path})"
 
-    content = re.sub(r"!\[(.*?)\]\((.*?)\)", repl_standard_image, content)
+        content = re.sub(r"!\[(.*?)\]\((.*?)\)", repl_standard_image, content)
 
-    # 2. Автоматическая трансформация Obsidian-картинок: ![[phone.jpg]] или ![[phone.jpg|300]]
-    def repl_obsidian_image(match):
-        inner = match.group(1)
-        # Отсекаем параметры ширины (например, |300)
-        clean_name = inner.split("|")[0].strip()
-        if clean_name.startswith(("http://", "https://")):
-            return f"![изображение]({clean_name})"
-        elif clean_name.startswith("/"):
-            return f"![изображение]({DOMAIN}{clean_name})"
-        else:
-            if clean_name.startswith("./"):
-                clean_name = clean_name[2:]
-            clean_name = clean_name.lstrip("/")
-            return f"![изображение]({DOMAIN}/posts/{post_slug}/{clean_name})"
+        # Obsidian Wiki-картинки: ![[phone.jpg]] или ![[phone.jpg|300]]
+        def repl_obsidian_image(match):
+            inner = match.group(1)
+            clean_name = inner.split("|")[0].strip()
+            if clean_name.startswith(("http://", "https://", "/")):
+                return f"![изображение]({clean_name})"
+            clean_path = clean_name.lstrip("./")
+            return f"![изображение]({DOMAIN}/posts/{slug}/{clean_path})"
 
-    content = re.sub(r"!\[\[(.*?)\]\]", repl_obsidian_image, content)
-
-    # 3. Преобразуем обычные внутренние ссылки (начинающиеся с /), делая их абсолютными
-    def repl_standard_link(match):
-        text = match.group(1)
-        link_path = match.group(2)
-        if link_path.startswith("/") and not link_path.startswith("//"):
-            return f"[{text}]({DOMAIN}{link_path})"
-        return match.group(0)
-
-    content = re.sub(r"\[(.*?)\]\((.*?)\)", repl_standard_link, content)
+        content = re.sub(r"!\[\[(.*?)\]\]", repl_obsidian_image, content)
     
-    # 4. Фикс одиночных переносов строк из Obsidian (Спецификация GFM Markdown)
+    # 3. Фикс одиночных переносов строк из Obsidian (Спецификация GFM Markdown)
     blocks = content.split('\n\n')
     processed_blocks = []
     for block in blocks:
@@ -86,8 +77,8 @@ async def transform_markdown(file_path):
             processed_blocks.append(clean_block)
     content = '\n\n'.join(processed_blocks)
 
-    # 5. Интеграция Instant View
-    iv_link = f"https://t.me/iv?url={DOMAIN}/posts/{post_slug}/&rhash={RHASH}"
+    # 4. Интеграция Instant View с корректным слагом
+    iv_link = f"https://t.me/iv?url={DOMAIN}/posts/{slug}/&rhash={RHASH}"
     invisible_char = "﻿" # Zero Width No-Break Space
     
     if tg_mode == 'iv_only':
@@ -134,17 +125,12 @@ async def main(file_path):
 
 if __name__ == "__main__":
     target_file = None
-    
-    # Сначала проверяем аргументы командной строки
     if len(sys.argv) >= 2:
         target_file = sys.argv[1]
-    else:
-        # Если аргументов нет, пробуем получить из переменной окружения GitHub Actions
-        target_file = os.getenv("TARGET_MD_FILE")
         
-    # Защита от пустых запусков (например, если TARGET_MD_FILE пустой из-за отсутствия изменений постов)
+    # Защита от пустых запусков экшена (если изменился файл темы, а не пост)
     if not target_file or target_file.strip() == "":
-        print("Предупреждение: Файл для публикации не обнаружен (целевой путь пуст). Пропускаем шаг публикации.")
+        print("Предупреждение: Путь к файлу публикации пуст. Пропускаем.")
         sys.exit(0)
         
     asyncio.run(main(target_file))

@@ -19,10 +19,8 @@
                     {{- $cover_url := .Params.cover.image | relURL -}}
                     {{- if .Params.cover.relative -}}
                         {{- /* Безопасно очищаем имя файла от префиксов вроде ./ */ -}}
-                        {{- $img_name := .Params.cover.image -}}
-                        {{- $img_name = replace $img_name "./" "" -}}
-                        {{- $img_name = replace $img_name "/" "" -}}
-                        {{- $resource := (.Resources.ByType "image").GetMatch (printf "*%s*" $img_name) -}}
+                        {{- $img_name := replace .Params.cover.image "./" "" -}}
+                        {{- $resource := .Resources.GetMatch $img_name -}}
                         {{- if $resource -}}
                             {{- $cover_url = $resource.RelPermalink -}}
                         {{- else -}}

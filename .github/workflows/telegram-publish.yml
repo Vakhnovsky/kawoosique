@@ -3,7 +3,7 @@ name: Publish Post to Telegram
 on:
   push:
     paths:
-      - 'content/posts/**/*.md' # Исправлено: теперь триггерится на файлы во вложенных папках Page Bundles
+      - 'content/posts/**/*.md' # Сканируем подпапки Page Bundles на любую глубину
 
 jobs:
   publish:
@@ -13,7 +13,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2 # Нужно для git diff, чтобы сравнить текущий коммит с предыдущим
+          fetch-depth: 2 # Нужен для git diff, чтобы сравнить текущий коммит с предыдущим
 
       # 2. Разворачиваем чистый Python (без ломающего сборку кэша)
       - name: Set up Python
@@ -37,11 +37,11 @@ jobs:
           echo "TARGET_MD_FILE=$CHANGED_FILE" >> $GITHUB_ENV
           echo "Найден измененный файл: $CHANGED_FILE"
 
-      # 5. Запускаем нашего издателя с явной передачей переменной
+      # 5. Запускаем нашего издателя с передачей ВСЕХ возможных вариантов секретов
       - name: Run publisher script
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          TARGET_MD_FILE: ${{ env.TARGET_MD_FILE }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }} # Обязательно передаем оба секрета в среду!
         run: |
           python tg_publisher.py "$TARGET_MD_FILE"

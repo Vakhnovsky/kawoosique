@@ -41,9 +41,9 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/posts/20260619-test-phone/index.md",
+                "file": "content/posts/20260619-intro/index.md",
                 "mode": "source",
-                "source": true
+                "source": false
               },
               "icon": "lucide-file",
               "title": "index"
@@ -210,17 +210,17 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "4de1b3bdaf39fbd4",
+  "active": "795f16c49613f447",
   "lastOpenFiles": [
+    "content/posts/20260619-intro/logo-main.png",
+    "content/posts/20260619-test-phone/index.md",
     "content/posts/20260619-test-phone/07.jpg",
     "content/drafts/coffee_09.md",
     "content/posts/20260619-intro/index.md",
     "content/drafts/coffee_10.md",
-    "content/posts/20260619-test-phone/index.md",
     "content/drafts/coffee_04.md",
     "content/drafts/coffee_03.md",
     "content/drafts/coffee_02.md",
-    "content/posts/20260619-intro/logo-main.png",
     "content/posts/20260619-intro.md",
     "content/posts/20260619-test-phone.md",
     "static/images/avatar-coffee.png",
@@ -251,7 +251,6 @@
     "public/assets/css/stylesheet.748837e4511573780255fa0cbf86df41681cb6ecdb7d9a1fa6c1917b81928da7.css",
     "static/images/09.jpg",
     "static/images/08.jpg",
-    "static/images/07.jpg",
     "static/images",
     "_templates"
   ]
