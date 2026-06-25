@@ -13,6 +13,7 @@ categories:
 cover:
   image: specialty.jpg
 relative: true
+
 ---
 
 ## Что есть спешалти?
