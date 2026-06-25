@@ -11,7 +11,7 @@ categories:
   - рассуждения
   - всячина
 cover:
-  image: "specialty.jpg"
+  image: specialty.jpg
 relative: true
 ---
 
