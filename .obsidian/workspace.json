@@ -42,7 +42,7 @@
               "type": "markdown",
               "state": {
                 "file": "content/posts/20260619-test-phone.md",
-                "mode": "preview",
+                "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
@@ -213,6 +213,7 @@
   "active": "4de1b3bdaf39fbd4",
   "lastOpenFiles": [
     "content/posts/20260619-intro.md",
+    "content/posts/20260619-test-phone.md",
     "content/drafts/coffee_02.md",
     "static/images/avatar-coffee.png",
     "static/images/19 Coffee.png",
