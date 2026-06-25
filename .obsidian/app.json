@@ -12,5 +12,5 @@
   ],
   "newFileLocation": "folder",
   "newFileFolderPath": "content/posts",
-  "attachmentFolderPath": "static"
+  "attachmentFolderPath": "./"
 }
