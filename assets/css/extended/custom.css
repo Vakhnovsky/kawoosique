@@ -158,6 +158,16 @@
     color: var(--secondary);
 }
 
+.compact-post-card-link {
+    display: block;
+    text-decoration: none !important;
+    color: inherit !important;
+    margin-bottom: 15px;
+}
+.compact-post-card-link:last-child {
+    margin-bottom: 0;
+}
+
 /* --------------------------------------------------------------------------
    ЖЕСТКАЯ ОПТИМИЗАЦИЯ ПОД МОБИЛЬНЫЕ (МЕНЕЕ 600px)
    -------------------------------------------------------------------------- */

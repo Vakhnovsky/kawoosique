@@ -4,36 +4,42 @@
     {{- partial "index_profile.html" . -}}
 {{- end -}}
 
-{{- /* Блок последних 3 постов в виде компактной плитки */ -}}
+{{- /* Безопасный блок последних 3 постов в виде компактной плитки */ -}}
+{{- $pages := where site.RegularPages "Type" "in" site.Params.mainSections -}}
+{{- if gt (len $pages) 0 -}}
 <div class="recent-posts-container">
     <h2 class="recent-posts-title">Последние публикации</h2>
     <div class="compact-posts-list">
-        {{- $pages := where site.RegularPages "Type" "in" site.Params.mainSections -}}
         {{- range first 3 $pages -}}
-        <article class="compact-post-card">
-            {{- if .Params.cover.image -}}
-            <div class="compact-post-cover">
-                <img src="{{ .Params.cover.image | relURL }}" alt="{{ .Title }}">
-            </div>
-            {{- end -}}
-            <div class="compact-post-content">
-                <header class="entry-header">
-                    <h2>
-                        <a href="{{ .Permalink }}">{{ .Title }}</a>
-                    </h2>
-                </header>
-                {{- if .Description -}}
-                <div class="entry-content">
-                    <p>{{ .Description | plainify | truncate 120 }}</p>
+        <a href="{{ .Permalink }}" class="compact-post-card-link">
+            <article class="compact-post-card">
+                {{- if .Params.cover.image -}}
+                <div class="compact-post-cover">
+                    <img src="{{ .Params.cover.image | relURL }}" alt="{{ .Title }}">
                 </div>
                 {{- end -}}
-                <footer class="entry-footer">
-                    {{- partial "post_meta.html" . -}}
-                </footer>
-            </div>
-        </article>
+                <div class="compact-post-content">
+                    <header class="entry-header">
+                        <h2>{{ .Title }}</h2>
+                    </header>
+                    {{- if .Description -}}
+                    <div class="entry-content">
+                        <p>{{ .Description | plainify | truncate 120 }}</p>
+                    </div>
+                    {{- else if .Summary -}}
+                    <div class="entry-content">
+                        <p>{{ .Summary | plainify | truncate 120 }}</p>
+                    </div>
+                    {{- end -}}
+                    <footer class="entry-footer">
+                        {{- partial "post_meta.html" . -}}
+                    </footer>
+                </div>
+            </article>
+        </a>
         {{- end -}}
     </div>
 </div>
+{{- end -}}
 
 {{- end -}}

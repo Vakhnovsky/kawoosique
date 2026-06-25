@@ -2,6 +2,8 @@ baseURL = 'https://kawoosique.com/'
 languageCode = 'ru-ru'
 title = 'KAWOOSIQUE'
 theme = 'PaperMod'
+buildFuture = true
+
 [outputs]
     home = ["HTML", "RSS", "JSON"]
 
