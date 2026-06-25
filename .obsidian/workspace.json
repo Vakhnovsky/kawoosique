@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/posts/20260619-intro.md",
-                "mode": "source",
+                "file": "content/posts/20260619-test-phone.md",
+                "mode": "preview",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "20260619-intro"
+              "title": "20260619-test-phone"
             }
           }
         ],
@@ -212,8 +212,8 @@
   },
   "active": "4de1b3bdaf39fbd4",
   "lastOpenFiles": [
-    "content/drafts/coffee_02.md",
     "content/posts/20260619-intro.md",
+    "content/drafts/coffee_02.md",
     "static/images/avatar-coffee.png",
     "static/images/19 Coffee.png",
     "_templates/TG-HUGO-COVER.md",
