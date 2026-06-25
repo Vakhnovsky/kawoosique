@@ -3,7 +3,7 @@ name: Publish Post to Telegram
 on:
   push:
     paths:
-      - 'content/posts/**.md'
+      - 'content/posts/**/*.md' # Исправлено: теперь триггерится на файлы во вложенных папках Page Bundles
 
 jobs:
   publish:
@@ -25,17 +25,23 @@ jobs:
       - name: Install dependencies
         run: pip install pyyaml aiogram python-frontmatter
 
-      # 4. Вычисляем точное имя измененного файла
+      # 4. Вычисляем точное имя измененного файла с защитой от ошибок первой публикации
       - name: Get changed markdown file
         id: changed-files
         run: |
-          CHANGED_FILE=$(git diff --name-only HEAD~1 HEAD | grep -E '^content/posts/.*\\.md$' | head -n 1)
+          if git rev-parse --verify HEAD~1 >/dev/null 2>&1; then
+            CHANGED_FILE=$(git diff --name-only HEAD~1 HEAD | grep -E '^content/posts/.*\.md$' | head -n 1)
+          else
+            CHANGED_FILE=$(git ls-files | grep -E '^content/posts/.*\.md$' | head -n 1)
+          fi
           echo "TARGET_MD_FILE=$CHANGED_FILE" >> $GITHUB_ENV
+          echo "Найден измененный файл: $CHANGED_FILE"
 
-      # 5. Запускаем нашего издателя
+      # 5. Запускаем нашего издателя с явной передачей переменной
       - name: Run publisher script
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TARGET_MD_FILE: ${{ env.TARGET_MD_FILE }}
         run: |
           python tg_publisher.py "$TARGET_MD_FILE"
