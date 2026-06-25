@@ -29,13 +29,13 @@ jobs:
       - name: Get changed markdown file
         id: changed-files
         run: |
-          CHANGED_FILE=$(git diff --name-only HEAD~1 HEAD | grep -E '^content/posts/.*\.md$' | head -n 1)
+          CHANGED_FILE=$(git diff --name-only HEAD~1 HEAD | grep -E '^content/posts/.*\\.md$' | head -n 1)
           echo "TARGET_MD_FILE=$CHANGED_FILE" >> $GITHUB_ENV
 
       # 5. Запускаем нашего издателя
       - name: Run publisher script
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
-          TARGET_MD_FILE: ${{ env.TARGET_MD_FILE }}
-        run: python tg_publisher.py
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          python tg_publisher.py "$TARGET_MD_FILE"

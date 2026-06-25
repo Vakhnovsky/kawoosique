@@ -18,11 +18,15 @@
                     {{- /* Вычисляем правильный URL обложки с поддержкой Page Bundles */ -}}
                     {{- $cover_url := .Params.cover.image | relURL -}}
                     {{- if .Params.cover.relative -}}
-                        {{- $resource := .Resources.GetMatch .Params.cover.image -}}
+                        {{- /* Безопасно очищаем имя файла от префиксов вроде ./ */ -}}
+                        {{- $img_name := .Params.cover.image -}}
+                        {{- $img_name = replace $img_name "./" "" -}}
+                        {{- $img_name = replace $img_name "/" "" -}}
+                        {{- $resource := (.Resources.ByType "image").GetMatch (printf "*%s*" $img_name) -}}
                         {{- if $resource -}}
                             {{- $cover_url = $resource.RelPermalink -}}
                         {{- else -}}
-                            {{- $cover_url = printf "%s%s" .RelPermalink .Params.cover.image -}}
+                            {{- $cover_url = printf "%s%s" .RelPermalink $img_name -}}
                         {{- end -}}
                     {{- end -}}
                     <img src="{{ $cover_url }}" alt="{{ .Title }}">

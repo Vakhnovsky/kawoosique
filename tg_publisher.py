@@ -39,7 +39,10 @@ async def transform_markdown(file_path):
             return f"![{alt}]({DOMAIN}{img_path})"
         else:
             # Относительные картинки внутри Page Bundles
-            clean_path = img_path.lstrip("./")
+            clean_path = img_path
+            if clean_path.startswith("./"):
+                clean_path = clean_path[2:]
+            clean_path = clean_path.lstrip("/")
             return f"![{alt}]({DOMAIN}/posts/{post_slug}/{clean_path})"
 
     content = re.sub(r"!\[(.*?)\]\((.*?)\)", repl_standard_image, content)
@@ -54,7 +57,9 @@ async def transform_markdown(file_path):
         elif clean_name.startswith("/"):
             return f"![изображение]({DOMAIN}{clean_name})"
         else:
-            clean_name = clean_name.lstrip("./")
+            if clean_name.startswith("./"):
+                clean_name = clean_name[2:]
+            clean_name = clean_name.lstrip("/")
             return f"![изображение]({DOMAIN}/posts/{post_slug}/{clean_name})"
 
     content = re.sub(r"!\[\[(.*?)\]\]", repl_obsidian_image, content)
@@ -96,10 +101,10 @@ async def transform_markdown(file_path):
 
 async def main(file_path):
     bot_token = os.getenv("TELEGRAM_BOT_TOKEN")
-    channel_id = os.getenv("TELEGRAM_CHAT_ID")
+    channel_id = os.getenv("TELEGRAM_CHAT_ID") or os.getenv("TELEGRAM_CHANNEL_ID")
     
     if not bot_token or not channel_id:
-        print("Ошибка: Переменные окружения TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID не заданы в GitHub Secrets.")
+        print("Ошибка: Переменные окружения TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID (или TELEGRAM_CHANNEL_ID) не заданы.")
         sys.exit(1)
         
     bot = Bot(token=bot_token)
@@ -129,11 +134,17 @@ async def main(file_path):
 
 if __name__ == "__main__":
     target_file = None
+    
+    # Сначала проверяем аргументы командной строки
     if len(sys.argv) >= 2:
         target_file = sys.argv[1]
+    else:
+        # Если аргументов нет, пробуем получить из переменной окружения GitHub Actions
+        target_file = os.getenv("TARGET_MD_FILE")
         
-    if not target_file:
-        print("Ошибка: Не указан путь к файлу в аргументах скрипта.")
-        sys.exit(1)
+    # Защита от пустых запусков (например, если TARGET_MD_FILE пустой из-за отсутствия изменений постов)
+    if not target_file or target_file.strip() == "":
+        print("Предупреждение: Файл для публикации не обнаружен (целевой путь пуст). Пропускаем шаг публикации.")
+        sys.exit(0)
         
     asyncio.run(main(target_file))
