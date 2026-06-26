@@ -1,5 +1,5 @@
 ---
-title: Заметка без шапки-картинки
+title: Заметка c шапкой-картинкой
 date: 2026-06-26
 draft: true
 tg_mode: rich_only
@@ -10,6 +10,9 @@ tags:
 categories:
   - рассуждения
   - всячина
+cover:
+  image: 09.jpg
+  relative: true
 ---
 
 ## Введение
