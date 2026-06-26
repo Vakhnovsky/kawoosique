@@ -10,9 +10,6 @@ tags:
 categories:
   - рассуждения
   - всячина
-cover:
-  image: 08.jpg
-  relative: true
 ---
 
 ## Введение
