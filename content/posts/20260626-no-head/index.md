@@ -14,9 +14,22 @@ categories:
 
 ## Введение
 Это просто проверка, как будет публиковаться заметка в телеге без картинки в шапке. 
-Заметки, касательно проекта
+Заметки, касательно проекта. Здесь я заменил стандартную ссылку обсидиана на картинку на ссылку, понятную HUGO
+```
+было:
+![[08.jpg]]
+стало
+![ ](08.gpg)
+```
+<hr/>
 **Ghjdthrf pthglgm;lmb** dlklkjldfv *l;lk;dfvmf dlklkdfv* <u>klkdfkjlkkjlkjldf</u> 
 $$
 E=MC^2
 $$
-![[08.jpg]]
+![ ](08.jpg)
+
+<footer>Footer text</footer>
+
+Вставка картинки по ссылке
+
+<img src="https://telegram.org/example/photo.jpg"/>
