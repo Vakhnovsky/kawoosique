@@ -1,7 +1,7 @@
 ---
-title: каша-малаша
+title: Каша-малаша
 date: 2026-06-26
-draft: false
+draft: true
 tg_mode: rich_only
 tags:
   - test
@@ -11,7 +11,7 @@ categories:
   - рассуждения
   - всячина
 cover:
-  image: 02.jpg
+  image: 03.jpg
   relative: true
 ---
 
@@ -73,7 +73,7 @@ cover:
 
 Пора вставить картинку
 
-![Кроличья нора](01.jpg)
+![Кроличья нора](02.jpg)
 
 # Ну и для красаты добавим кусок примеров с сайта апи телеги типа кода
 
@@ -127,4 +127,4 @@ Intro with <u>underlined text</u>, ==marked text==, and $x^2 + y^2$.
 [^note]: Footnote with _italic text_ and <u>HTML underline</u>.
 
 ### И проверяю ещё картинку
-![ ](03.jpg)
+![ ](01.jpg)
