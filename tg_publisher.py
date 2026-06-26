@@ -77,7 +77,23 @@ async def transform_markdown(file_path):
             processed_blocks.append(clean_block)
     content = '\n\n'.join(processed_blocks)
 
-    # 4. Интеграция Instant View с корректным слагом
+    # 4. Извлекаем и собираем URL обложки (Cover Image) для интеграции в Телеграм
+    cover_data = post.get('cover', {})
+    cover_url = ""
+    if isinstance(cover_data, dict):
+        cover_img = cover_data.get('image', '')
+        if cover_img:
+            # Очищаем имя от префиксов путей
+            cover_img_clean = cover_img.replace("./", "").lstrip("/")
+            is_relative = cover_data.get('relative', False)
+            if is_relative and is_bundle:
+                cover_url = f"{DOMAIN}/posts/{slug}/{cover_img_clean}"
+            elif is_relative:
+                cover_url = f"{DOMAIN}/images/{cover_img_clean}"
+            else:
+                cover_url = cover_img if cover_img.startswith("http") else f"{DOMAIN}/{cover_img_clean}"
+
+    # 5. Интеграция Instant View и скрытой обложки
     iv_link = f"https://t.me/iv?url={DOMAIN}/posts/{slug}/&rhash={RHASH}"
     invisible_char = "﻿" # Zero Width No-Break Space
     
@@ -86,7 +102,11 @@ async def transform_markdown(file_path):
     elif tg_mode == 'rich_iv':
         text = f"[{invisible_char}]({iv_link})*{title}*\n\n{content}\n\n[Читать в Instant View]({iv_link})"
     else: # rich_only
-        text = f"*{title}*\n\n{content}" if title else content
+        # Если задана обложка, мы бесшовно прикрепляем её через невидимый символ-ссылку в самом начале сообщения
+        if cover_url:
+            text = f"[{invisible_char}]({cover_url})*{title}*\n\n{content}" if title else f"[{invisible_char}]({cover_url}){content}"
+        else:
+            text = f"*{title}*\n\n{content}" if title else content
         
     return text
 

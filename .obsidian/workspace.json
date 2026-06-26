@@ -41,7 +41,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/posts/20260619-test-phone/index.md",
+                "file": "content/posts/20260619-intro/index.md",
                 "mode": "source",
                 "source": true
               },
@@ -212,8 +212,9 @@
   },
   "active": "4de1b3bdaf39fbd4",
   "lastOpenFiles": [
-    "content/posts/markdown-test/index.md",
+    "content/posts/20260619-intro/avatar-coffee.png",
     "content/posts/20260619-test-phone/index.md",
+    "content/posts/markdown-test/index.md",
     "content/drafts/coffee_02.md",
     "content/posts/markdown-test/markdown-test.md",
     "content/posts/markdown-test/03.jpg",
@@ -225,7 +226,6 @@
     "content/posts/02.jpg",
     "content/posts/markdown-test.md",
     "content/posts/20260619-intro/index.md",
-    "content/posts/20260619-intro/avatar-coffee.png",
     "content/posts/20260619-intro/logo-main.png",
     "content/posts/20260619-test-phone/07.jpg",
     "content/drafts/coffee_09.md",
@@ -248,7 +248,6 @@
     "content/drafts/obsidian-template-test.md",
     "content/drafts/nozh.md",
     "content/drafts/Markdown-tg-styles.md",
-    "content/drafts/markdown-test.md",
     "content/drafts",
     "public/assets/css/stylesheet.9b42e0dfafec85c2898187a3cbfdceede1b8e525bda08805d4678a9cb316a44b.css",
     "public/assets/css/stylesheet.3ef4ed4ec8b3093f7c208c10f14de59fae2e061815a79ca018b84d8b81371581.css",
