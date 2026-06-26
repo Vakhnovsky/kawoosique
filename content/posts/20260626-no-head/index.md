@@ -30,8 +30,7 @@ $$
 E=MC^2
 $$
 
-
-![text ](08.jpg)
+![text](08.jpg)
 
 <footer>Footer text</footer>
 
