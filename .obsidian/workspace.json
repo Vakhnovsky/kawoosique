@@ -41,7 +41,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/posts/20260619-test-phone/index.md",
+                "file": "content/posts/markdown-test/index.md",
                 "mode": "source",
                 "source": true
               },
@@ -212,9 +212,12 @@
   },
   "active": "4de1b3bdaf39fbd4",
   "lastOpenFiles": [
+    "_templates/TG-COVER.md",
+    "_templates/TG-only.md",
+    "_templates/TG-HUGO-COVER.md",
+    "content/posts/20260619-test-phone/index.md",
     "content/posts/20260619-intro/index.md",
     "content/posts/20260619-intro/avatar-coffee.png",
-    "content/posts/20260619-test-phone/index.md",
     "content/posts/markdown-test/index.md",
     "content/drafts/coffee_02.md",
     "content/posts/markdown-test/markdown-test.md",
@@ -235,9 +238,6 @@
     "content/posts/20260619-intro.md",
     "content/posts/20260619-test-phone.md",
     "static/images/avatar-coffee.png",
-    "_templates/TG-HUGO-COVER.md",
-    "_templates/TG-only.md",
-    "_templates/TG-COVER.md",
     "content/drafts/20260619-test-phone.md",
     "content/drafts/test-simple.md",
     "content/drafts/test-rich.md",

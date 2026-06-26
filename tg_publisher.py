@@ -1,9 +1,8 @@
 import os
-import re
 import sys
 import asyncio
 import frontmatter
-import aiohttp
+import re
 from aiogram import Bot
 from aiogram.types import InputRichMessage
 
@@ -11,40 +10,14 @@ from aiogram.types import InputRichMessage
 DOMAIN = "https://kawoosique.com"
 RHASH = "5dda3eb0d9e2b1"
 
-# Динамическая сборка маркера, чтобы веб-интерфейсы не вырезали его как HTML-комментарий
-TG_MARKER = "<!" + "--" + "tg" + "--" + ">"
-
-async def wait_for_url(url: str, timeout: int = 120, delay: int = 5) -> bool:
-    """
-    Асинхронно ожидает, пока URL обложки станет доступен (вернет HTTP 200).
-    Предотвращает гонку условий в GitHub Actions, когда бот отправляет
-    пост в Телеграм до того, как Hugo успел завершить деплой сайта.
-    """
-    if not url.startswith("http"):
-        return False
-        
-    print(f"Ожидание публикации обложки на сервере: {url}")
-    start_time = asyncio.get_event_loop().time()
-    
-    async with aiohttp.ClientSession() as session:
-        while asyncio.get_event_loop().time() - start_time < timeout:
-            try:
-                async with session.head(url, timeout=5) as response:
-                    if response.status == 200:
-                        print("Успех! Обложка опубликована и доступна для Telegram.")
-                        return True
-            except Exception:
-                pass
-            await asyncio.sleep(delay)
-            
-    print("Предупреждение: Превышено время ожидания обложки. Отправляем пост как есть.")
-    return False
+# Служебный маркер для Instant View
+TG_MARKER = "<!--tg-->"
 
 async def transform_markdown(file_path):
     """
     Парсит Front Matter заметки Obsidian, преобразует относительные пути
-    изображений в абсолютные URL сайта и форматирует тело под Rich Markdown.
-    Возвращает кортеж (отформатированный_текст, url_обложки).
+    изображений в абсолютные URL сайта с учетом структуры Page Bundles
+    и форматирует тело под Rich Markdown для Telegram API 10.1.
     """
     with open(file_path, 'r', encoding='utf-8') as f:
         post = frontmatter.load(f)
@@ -53,109 +26,116 @@ async def transform_markdown(file_path):
     tg_mode = post.get('tg_mode', 'rich_only')
     content = post.content
     
-    # 1. Интеллектуальное определение слага поста для Page Bundles и плоской структуры
-    filename = os.path.basename(file_path)
-    if filename == "index.md":
-        # Если это Page Bundle (content/posts/folder/index.md) -> берем имя папки
-        slug = os.path.basename(os.path.dirname(file_path))
-        is_bundle = True
-    else:
-        # Если это старая плоская структура (content/posts/name.md) -> берем имя файла
-        slug = os.path.splitext(filename)[0]
-        is_bundle = False
+    # Вычисляем директорию поста относительно content/ для Page Bundles
+    norm_path = os.path.normpath(file_path).replace("\\", "/")
+    if norm_path.startswith("content/"):
+        norm_path = norm_path[len("content/"):]
+    dirname = os.path.dirname(norm_path)  # Например: "posts/20260619-test-phone"
+    
+    def make_url_absolute(url_path):
+        """Преобразует любой локальный путь к файлу в полный URL на сайте."""
+        url_path = url_path.strip()
+        # Если это уже полная ссылка, e-mail или якорь, не трогаем её
+        if url_path.startswith(('http://', 'https://', 'mailto:', 'tel:', '#')):
+            return url_path
+        # Если ссылка начинается со слэша, она идет от корня сайта (старая логика static/images)
+        if url_path.startswith('/'):
+            return f"{DOMAIN}{url_path}"
+        # Иначе ссылка относительная (новая логика Page Bundles)
+        if dirname:
+            return f"{DOMAIN}/{dirname}/{url_path}"
+        return f"{DOMAIN}/{url_path}"
         
-    # 2. Автоматическая трансформация путей картинок
-    content = content.replace('](/', f']({DOMAIN}/')
-    content = content.replace('="/', f'="{DOMAIN}/')
+    # 1. Автоматическая трансформация всех относительных/абсолютных изображений и ссылок в тексте поста
+    # Картинки: ![alt](url)
+    content = re.sub(r'!\[(.*?)\]\((.*?)\)', lambda m: f"![{m.group(1)}]({make_url_absolute(m.group(2))})", content)
+    # Обычные ссылки (исключаем картинки через negative lookbehind): [text](url)
+    content = re.sub(r'(?<!!)\[(.*?)\]\((.*?)\)', lambda m: f"[{m.group(1)}]({make_url_absolute(m.group(2))})", content)
+    # HTML-атрибуты картинок src="..."
+    content = re.sub(r'src=["\'](.*?)["\']', lambda m: f'src="{make_url_absolute(m.group(1))}"', content)
     
-    # Если это Page Bundle, переводим все относительные картинки в абсолютные URL
-    if is_bundle:
-        # Стандартные Markdown-картинки: ![alt](phone.jpg) или ![alt](./phone.jpg)
-        def repl_standard_image(match):
-            alt = match.group(1)
-            img_path = match.group(2)
-            if img_path.startswith(("http://", "https://", "/")):
-                return match.group(0) # Пропускаем внешние и глобальные
-            clean_path = img_path.lstrip("./")
-            return f"![{alt}]({DOMAIN}/posts/{slug}/{clean_path})"
+    # 2. Фикс одиночных переносов строк из Obsidian (Спецификация GFM Markdown)
+    # Предотвращает склеивание строк в Telegram при мягких переносах.
+    lines = content.split('\n')
+    for i in range(len(lines)):
+        line = lines[i].strip()
+        if not line:
+            continue
+        # Пропускаем списки, заголовки, блоки цитат, таблиц и кода
+        if line.startswith(('-', '*', '+', '#', '>', '|', '```')) or (line[0].isdigit() and line[1:3] == '. '):
+            continue
+        if i + 1 < len(lines):
+            next_line = lines[i+1].strip()
+            if next_line and not next_line.startswith(('-', '*', '+', '#', '>', '|', '```')) and not (next_line[0].isdigit() and next_line[1:3] == '. '):
+                lines[i] = lines[i] + "  "  # Добавляем два пробела в конце строки по спецификации Markdown
+    content = '\n'.join(lines)
 
-        content = re.sub(r"!\[(.*?)\]\((.*?)\)", repl_standard_image, content)
-
-        # Obsidian Wiki-картинки: ![[phone.jpg]] или ![[phone.jpg|300]]
-        def repl_obsidian_image(match):
-            inner = match.group(1)
-            clean_name = inner.split("|")[0].strip()
-            if clean_name.startswith(("http://", "https://", "/")):
-                return f"![изображение]({clean_name})"
-            clean_path = clean_name.lstrip("./")
-            return f"![изображение]({DOMAIN}/posts/{slug}/{clean_path})"
-
-        content = re.sub(r"!\[\[(.*?)\]\]", repl_obsidian_image, content)
-    
-    # 3. Фикс одиночных переносов строк из Obsidian (Спецификация GFM Markdown)
-    blocks = content.split('\n\n')
-    processed_blocks = []
-    for block in blocks:
-        if any(block.startswith(p) for p in ['#', '-', '*', '>', '`', '|']) or '```' in block:
-            processed_blocks.append(block)
-        else:
-            lines = [line.strip() for line in block.splitlines()]
-            clean_block = ' '.join([l for l in lines if l])
-            processed_blocks.append(clean_block)
-    content = '\n\n'.join(processed_blocks)
-
-    # 4. Извлекаем и собираем URL обложки (Cover Image)
+    # 3. Извлечение и валидация обложки (cover.image) из Front Matter
     cover_data = post.get('cover', {})
     cover_url = ""
     if isinstance(cover_data, dict):
-        cover_img = cover_data.get('image', '')
-        if cover_img:
-            # Очищаем имя от префиксов путей
-            cover_img_clean = cover_img.replace("./", "").lstrip("/")
-            is_relative = cover_data.get('relative', False)
-            if is_relative and is_bundle:
-                cover_url = f"{DOMAIN}/posts/{slug}/{cover_img_clean}"
-            elif is_relative:
-                cover_url = f"{DOMAIN}/images/{cover_img_clean}"
-            else:
-                cover_url = cover_img if cover_img.startswith("http") else f"{DOMAIN}/{cover_img_clean}"
+        cover_image = cover_data.get('image', '')
+        if cover_image:
+            cover_url = make_url_absolute(cover_image)
 
-    # 5. Интеграция Instant View и скрытой обложки
-    iv_link = f"https://t.me/iv?url={DOMAIN}/posts/{slug}/&rhash={RHASH}"
-    invisible_char = "\u200b" # Гарантированный Юникод-символ нулевой ширины
+    # 4. Формирование тела сообщения
+    body = content.strip()
     
-    if tg_mode == 'iv_only':
-        text = f"[{invisible_char}]({iv_link})**{title}**\n\n{iv_link}"
-    elif tg_mode == 'rich_iv':
-        text = f"[{invisible_char}]({iv_link})**{title}**\n\n{content}\n\n[Читать в Instant View]({iv_link})"
-    else: # rich_only
-        # Бесшовно прикрепляем обложку через невидимый символ-ссылку в начале сообщения для генерации превью
-        if cover_url:
-            text = f"[{invisible_char}]({cover_url})**{title}**\n\n{content}" if title else f"[{invisible_char}]({cover_url}){content}"
-        else:
-            text = f"**{title}**\n\n{content}" if title else content
+    # Вычисляем слаг поста для сборки Instant View ссылки
+    if "index.md" in file_path:
+        post_slug = os.path.basename(os.path.dirname(file_path))
+    else:
+        post_slug = os.path.splitext(os.path.basename(file_path))[0]
         
-    return text, cover_url
+    iv_link = f"https://t.me/iv?url={DOMAIN}/posts/{post_slug}/&rhash={RHASH}"
 
-async def main(file_path):
-    bot_token = os.getenv("TELEGRAM_BOT_TOKEN")
-    channel_id = os.getenv("TELEGRAM_CHAT_ID") or os.getenv("TELEGRAM_CHANNEL_ID")
+    # 5. Сборка сообщения в зависимости от режима публикации (tg_mode)
+    if tg_mode == 'iv_only':
+        # Отправляем только нативный красивый заголовок со ссылкой на Instant View
+        body = f"# [{title}]({iv_link})"
+    else:
+        # Нативно встраиваем обложку в самое начало текста
+        if cover_url:
+            body = f"![Обложка]({cover_url})\n\n" + body
+            
+        # Добавляем нативный заголовок H1 (Telegram API 10.1 отрендерит его крупно и жирно)
+        if title and not body.startswith(f"# "):
+            body = f"# {title}\n\n" + body
+            
+        # Добавляем ссылку Instant View в конец для гибридного режима
+        if tg_mode == 'hybrid':
+            body += f"\n\n[Читать в Instant View]({iv_link})"
+            
+    # Добавляем невидимый HTML-комментарий для связки с IV правилами
+    body = TG_MARKER + "\n" + body
+    
+    return body
+
+async def main():
+    if len(sys.argv) < 2:
+        print("Использование: python tg_publisher.py <путь_к_файлу.md>")
+        sys.exit(1)
+        
+    file_path = sys.argv[1]
+    if not os.path.exists(file_path):
+        print(f"Ошибка: Файл {file_path} не найден.")
+        sys.exit(1)
+        
+    bot_token = os.environ.get("TELEGRAM_BOT_TOKEN")
+    channel_id = os.environ.get("TELEGRAM_CHANNEL_ID")
     
     if not bot_token or not channel_id:
-        print("Ошибка: Переменные окружения TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID не заданы.")
+        print("Ошибка: TELEGRAM_BOT_TOKEN или TELEGRAM_CHANNEL_ID не заданы в GitHub Secrets.")
         sys.exit(1)
         
     bot = Bot(token=bot_token)
     
     try:
-        rich_markdown_text, cover_url = await transform_markdown(file_path)
+        rich_markdown_text = await transform_markdown(file_path)
         
-        # Если у нас есть обложка, дожидаемся её физической публикации на сайте
-        if cover_url:
-            await wait_for_url(cover_url)
-        
+        # Защитный лимит на размер сообщения в Telegram
         if len(rich_markdown_text) > 32768:
-            print(f"Предупреждение: Текст превышает лимит API 10.1 ({len(rich_markdown_text)} симв.). Сжатие...")
+            print(f"Предупреждение: Текст превышает лимит API ({len(rich_markdown_text)} симв.). Сжатие...")
             rich_markdown_text = rich_markdown_text[:32760] + "\n\n..."
             
         await bot.send_rich_message(
@@ -175,13 +155,6 @@ async def main(file_path):
         await bot.session.close()
 
 if __name__ == "__main__":
-    target_file = None
-    if len(sys.argv) >= 2:
-        target_file = sys.argv[1]
-        
-    # Защита от пустых запусков экшена (если изменился файл темы, а не пост)
-    if not target_file or target_file.strip() == "":
-        print("Предупреждение: Путь к файлу публикации пуст. Пропускаем.")
-        sys.exit(0)
-        
-    asyncio.run(main(target_file))
+    if sys.platform == 'win32':
+        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+    asyncio.run(main())
