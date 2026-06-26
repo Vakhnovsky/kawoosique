@@ -69,7 +69,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/posts/20260626-no-head/index.md",
+                "file": "content/posts/20260619-test-phone/index.md",
                 "mode": "source",
                 "source": true
               },
@@ -240,8 +240,8 @@
   },
   "active": "8aa295a1f7b357a7",
   "lastOpenFiles": [
-    "content/posts/markdown-test/index.md",
     "content/posts/20260626-no-head/index.md",
+    "content/posts/markdown-test/index.md",
     "_templates/TG-COVER.md",
     "_templates/TG-HUGO-COVER.md",
     "_templates/TG-only.md",
