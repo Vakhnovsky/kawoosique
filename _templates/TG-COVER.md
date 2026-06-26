@@ -1,12 +1,18 @@
 ---
-title: "{{title}}"
-date: {{date}}T{{time}}:00+03:00
+title: {{title}}
+date: {{date}}
 draft: true
-tg_mode: "rich_only"
-tags: ["мысли", "заметка"]
-categories: ["Telegram"]
+tg_mode: rich_only
+tags:
+  - start
+  - welcome
+  - приветствие
+categories:
+  - рассуждения
+  - всячина
 cover:
-  image: "/images/pic.jpg"
+  image: logo-main.png
+  relative: true
 ---
 
 ## Введение

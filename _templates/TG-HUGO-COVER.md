@@ -1,12 +1,18 @@
 ---
-title: "{{title}}"
-date: {{date}}T{{time}}:00+03:00
+title: {{title}}
+date: {{date}}
 draft: false
-tg_mode: "rich_only"
-tags: ["кальян", "арабский_стиль"]
-categories: ["Обзоры"]
+tg_mode: rich_only
+tags:
+  - start
+  - welcome
+  - приветствие
+categories:
+  - рассуждения
+  - всячина
 cover:
-  image: "/images/pic.jpg"
+  image: logo-main.png
+  relative: true
 ---
 
 ## Введение
