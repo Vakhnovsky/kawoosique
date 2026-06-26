@@ -1,7 +1,7 @@
 ---
 title: Заметка c шапкой-картинкой
 date: 2026-06-26
-draft: true
+draft: false
 tg_mode: rich_only
 tags:
   - start
@@ -11,7 +11,7 @@ categories:
   - рассуждения
   - всячина
 cover:
-  image: 09.jpg
+  image: 08.jpg
   relative: true
 ---
 
