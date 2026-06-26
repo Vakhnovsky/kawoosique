@@ -29,4 +29,3 @@ $$
 
 Вставка картинки по ссылке
 
-<img src="https://telegram.org/example/photo.jpg"/>
