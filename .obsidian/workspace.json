@@ -71,7 +71,7 @@
               "state": {
                 "file": "content/posts/20260626-no-head/index.md",
                 "mode": "source",
-                "source": false
+                "source": true
               },
               "icon": "lucide-file",
               "title": "index"

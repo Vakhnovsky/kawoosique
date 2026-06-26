@@ -19,13 +19,15 @@ categories:
 было:
 ![[08.jpg]]
 стало
-![ ](08.gpg)
+![ ](08.jpg)
 ```
 <hr/>
 **Ghjdthrf pthglgm;lmb** dlklkjldfv *l;lk;dfvmf dlklkdfv* <u>klkdfkjlkkjlkjldf</u> 
 $$
 E=MC^2
 $$
+
+
 ![ ](08.jpg)
 
 <footer>Footer text</footer>
