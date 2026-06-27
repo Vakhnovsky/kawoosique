@@ -15,13 +15,30 @@ RHASH = "5dda3eb0d9e2b1"
 # Служебный маркер для Instant View
 TG_MARKER = "<!--tg-->"
 
+def get_mime_type(file_path: str) -> str:
+    """
+    Сверхнадежное определение MIME-типа изображения с ручным фолбеком.
+    """
+    mime_type, _ = mimetypes.guess_type(file_path)
+    if not mime_type:
+        ext = os.path.splitext(file_path)[1].lower()
+        if ext in ['.jpg', '.jpeg']:
+            return 'image/jpeg'
+        elif ext == '.png':
+            return 'image/png'
+        elif ext == '.gif':
+            return 'image/gif'
+        elif ext == '.webp':
+            return 'image/webp'
+        return 'image/jpeg'
+    return mime_type
+
 async def upload_to_telegraph(file_path: str) -> str:
     """
     Загружает локальный файл на сервер Telegra.ph и возвращает прямой URL.
     """
     url = "https://telegra.ph/upload"
-    mime_type, _ = mimetypes.guess_type(file_path)
-    mime_type = mime_type or "image/jpeg"
+    mime_type = get_mime_type(file_path)
 
     data = aiohttp.FormData()
     try:
@@ -39,7 +56,7 @@ async def upload_to_telegraph(file_path: str) -> str:
     headers = {
         "Origin": "https://telegra.ph",
         "Referer": "https://telegra.ph/",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
     }
 
     async with aiohttp.ClientSession() as session:
@@ -60,11 +77,10 @@ async def upload_to_telegraph(file_path: str) -> str:
 async def upload_to_catbox(file_path: str) -> str:
     """
     Резервный загрузчик на Catbox.moe. 
-    Используется, если Telegra.ph блокирует запросы из GitHub Actions (ошибка 400/403).
+    Использует браузерные заголовки для обхода защиты Cloudflare (WAF 412).
     """
     url = "https://catbox.moe/user/api.php"
-    mime_type, _ = mimetypes.guess_type(file_path)
-    mime_type = mime_type or "image/jpeg"
+    mime_type = get_mime_type(file_path)
 
     data = aiohttp.FormData()
     data.add_field("reqtype", "fileupload")
@@ -80,9 +96,16 @@ async def upload_to_catbox(file_path: str) -> str:
         print(f"   ❌ [Catbox] Ошибка чтения файла: {e}")
         return None
 
+    # Железная имитация реального браузера для прохождения проверки Cloudflare
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Origin": "https://catbox.moe",
+        "Referer": "https://catbox.moe/"
+    }
+
     async with aiohttp.ClientSession() as session:
         try:
-            async with session.post(url, data=data, timeout=30) as resp:
+            async with session.post(url, data=data, headers=headers, timeout=30) as resp:
                 if resp.status == 200:
                     uploaded_url = await resp.text()
                     uploaded_url = uploaded_url.strip()
@@ -94,9 +117,52 @@ async def upload_to_catbox(file_path: str) -> str:
             print(f"   ❌ [Catbox] Исключение при загрузке: {e}")
     return None
 
+async def upload_to_litterbox(file_path: str) -> str:
+    """
+    Второй резервный загрузчик на Litterbox (от создателей Catbox).
+    Файлы там хранятся до 72 часов, чего с запасом хватает для кэширования в Telegram.
+    """
+    url = "https://litterbox.catbox.moe/resources/internals/api.php"
+    mime_type = get_mime_type(file_path)
+
+    data = aiohttp.FormData()
+    data.add_field("reqtype", "fileupload")
+    data.add_field("time", "72h") # Храним картинку 3 дня
+    try:
+        with open(file_path, "rb") as f:
+            data.add_field(
+                "fileToUpload",
+                f.read(),
+                filename=os.path.basename(file_path),
+                content_type=mime_type
+            )
+    except Exception as e:
+        print(f"   ❌ [Litterbox] Ошибка чтения файла: {e}")
+        return None
+
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Origin": "https://litterbox.catbox.moe",
+        "Referer": "https://litterbox.catbox.moe/"
+    }
+
+    async with aiohttp.ClientSession() as session:
+        try:
+            async with session.post(url, data=data, headers=headers, timeout=30) as resp:
+                if resp.status == 200:
+                    uploaded_url = await resp.text()
+                    uploaded_url = uploaded_url.strip()
+                    if uploaded_url.startswith("https://files.catbox.moe"):
+                        print(f"   🚀 [Litterbox] Успешная загрузка на временный хост: {uploaded_url}")
+                        return uploaded_url
+                print(f"   ❌ [Litterbox] Сбой загрузки. Статус: {resp.status}")
+        except Exception as e:
+            print(f"   ❌ [Litterbox] Исключение при загрузке: {e}")
+    return None
+
 async def upload_image_to_cloud(file_path: str) -> str:
     """
-    Универсальный загрузчик изображений с автоматическим переключением на резервный хостинг.
+    Универсальный загрузчик изображений с автоматическим переключением на резервные хостинги.
     """
     if not os.path.exists(file_path):
         print(f"⚠️ Файл не найден локально: {file_path}")
@@ -112,8 +178,14 @@ async def upload_image_to_cloud(file_path: str) -> str:
         return uploaded_url
 
     # Попытка 2: Catbox.moe (Резерв)
-    print("   ⚠️ Telegra.ph заблокировал запрос (CF 400/403). Включаем резервный Catbox.moe...")
+    print("   ⚠️ Telegra.ph не сработал. Шаг 2: Включаем Catbox.moe...")
     uploaded_url = await upload_to_catbox(file_path)
+    if uploaded_url:
+        return uploaded_url
+
+    # Попытка 3: Litterbox (Второй резерв)
+    print("   ⚠️ Catbox.moe не сработал. Шаг 3: Пробуем Litterbox...")
+    uploaded_url = await upload_to_litterbox(file_path)
     if uploaded_url:
         return uploaded_url
 
@@ -194,7 +266,9 @@ async def transform_markdown(file_path):
     
     # Встраиваем обложку в начало как невидимую ссылку
     preview_link = ""
-    if cover_url:
+    # Жесткое правило безопасности: используем cover_url, только если он был успешно загружен в облако
+    # Если загрузка провалилась и вернулся DOMAIN-fallback, заменяем его на iv_url, чтобы Telegram API не упал с ошибкой 400
+    if cover_url and not cover_url.startswith(DOMAIN):
         preview_link = f"[\u00AD]({cover_url})"
     else:
         preview_link = f"[\u00AD]({iv_url})"
