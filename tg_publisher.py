@@ -73,11 +73,19 @@ async def main():
     title = metadata.get('title', '')
     header = f"# {title}\n\n" if title else ""
     
-    tags_list = metadata.get('tags', [])
+    tags_list = post.get('tags', [])
     formatted_tags = ""
+    tag_pattern = r'[^\w\d_]'
+    
     if tags_list and isinstance(tags_list, list):
-        tags = [f"#{re.sub(r'[^\w\d_]', '', str(t).replace(' ', '_'))}" for t in tags_list]
-        formatted_tags = "\n\n" + " ".join(tags)
+        tags = []
+        for t in tags_list:
+            # Очистка тега без использования слэшей внутри f-строки
+            clean_tag = re.sub(tag_pattern, '', str(t).replace(' ', '_'))
+            if clean_tag:
+                tags.append(f"#{clean_tag}")
+        if tags:
+            formatted_tags = "\n\n" + " ".join(tags)
 
     final_text = f"{header}{body.strip()}{formatted_tags}"
 
