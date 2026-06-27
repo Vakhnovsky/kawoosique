@@ -1,7 +1,7 @@
 ---
 title: Заметка без шапкой-картинкой
 date: 2026-06-27
-draft: true
+draft: false
 tg_mode: rich_only
 tags:
   - start
