@@ -21,9 +21,9 @@ categories:
 **Ghjdthrf pthglgm;lmb** dlklkjldfv *l;lk;dfvmf dlklkdfv* klkdfkjlkkjlkjldf
 E=MC^2
 
-Вставка картинки по ссылке
+No картинки по ссылке
 
-![alt](08.jpg)
+
 
 
 
