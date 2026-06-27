@@ -1,7 +1,7 @@
 ---
 title: Заметка без шапкой-картинкой
 date: 2026-06-27
-draft: true
+draft: false
 tg_mode: rich_only
 tags:
   - start
@@ -21,9 +21,9 @@ categories:
 **Ghjdthrf pthglgm;lmb** dlklkjldfv *l;lk;dfvmf dlklkdfv* klkdfkjlkkjlkjldf
 E=MC^2
 
-No картинки по ссылке
+Вставка картинки по ссылке
 
-
+![alt](08.jpg)
 
 
 
