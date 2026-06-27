@@ -10,6 +10,7 @@ tags:
 cover:
   image: history.png
   relative: true
+  
 ---
 
 ## Здесь будет первая картинка
