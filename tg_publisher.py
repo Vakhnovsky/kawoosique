@@ -19,10 +19,6 @@ async def upload_to_telegraph(file_path: str) -> str:
     """
     Загружает локальный файл на сервер Telegra.ph и возвращает прямой URL.
     """
-    if not os.path.exists(file_path):
-        print(f"⚠️ Файл не найден локально: {file_path}")
-        return None
-
     url = "https://telegra.ph/upload"
     mime_type, _ = mimetypes.guess_type(file_path)
     mime_type = mime_type or "image/jpeg"
@@ -37,7 +33,7 @@ async def upload_to_telegraph(file_path: str) -> str:
                 content_type=mime_type
             )
     except Exception as e:
-        print(f"❌ Ошибка чтения файла {file_path}: {e}")
+        print(f"   ❌ [Telegraph] Ошибка чтения файла: {e}")
         return None
 
     headers = {
@@ -48,24 +44,86 @@ async def upload_to_telegraph(file_path: str) -> str:
 
     async with aiohttp.ClientSession() as session:
         try:
-            async with session.post(url, data=data, headers=headers) as resp:
+            async with session.post(url, data=data, headers=headers, timeout=15) as resp:
                 if resp.status == 200:
                     result = await resp.json()
                     if isinstance(result, list) and len(result) > 0:
                         img_path = result[0].get("src")
                         full_url = f"https://telegra.ph{img_path}"
-                        print(f"   🔥 Успешно загружено на Telegraph: {full_url}")
+                        print(f"   🔥 [Telegraph] Успешно загружено: {full_url}")
                         return full_url
-                print(f"❌ Ошибка загрузки на Telegraph (Status {resp.status})")
+                print(f"   ❌ [Telegraph] Ошибка загрузки. Статус: {resp.status}")
         except Exception as e:
-            print(f"❌ Исключение при загрузке на Telegraph: {e}")
+            print(f"   ❌ [Telegraph] Исключение при загрузке: {e}")
+    return None
+
+async def upload_to_catbox(file_path: str) -> str:
+    """
+    Резервный загрузчик на Catbox.moe. 
+    Используется, если Telegra.ph блокирует запросы из GitHub Actions (ошибка 400/403).
+    """
+    url = "https://catbox.moe/user/api.php"
+    mime_type, _ = mimetypes.guess_type(file_path)
+    mime_type = mime_type or "image/jpeg"
+
+    data = aiohttp.FormData()
+    data.add_field("reqtype", "fileupload")
+    try:
+        with open(file_path, "rb") as f:
+            data.add_field(
+                "fileToUpload",
+                f.read(),
+                filename=os.path.basename(file_path),
+                content_type=mime_type
+            )
+    except Exception as e:
+        print(f"   ❌ [Catbox] Ошибка чтения файла: {e}")
+        return None
+
+    async with aiohttp.ClientSession() as session:
+        try:
+            async with session.post(url, data=data, timeout=30) as resp:
+                if resp.status == 200:
+                    uploaded_url = await resp.text()
+                    uploaded_url = uploaded_url.strip()
+                    if uploaded_url.startswith("https://files.catbox.moe"):
+                        print(f"   🚀 [Catbox] Успешная резервная загрузка: {uploaded_url}")
+                        return uploaded_url
+                print(f"   ❌ [Catbox] Сбой загрузки. Статус: {resp.status}")
+        except Exception as e:
+            print(f"   ❌ [Catbox] Исключение при загрузке: {e}")
+    return None
+
+async def upload_image_to_cloud(file_path: str) -> str:
+    """
+    Универсальный загрузчик изображений с автоматическим переключением на резервный хостинг.
+    """
+    if not os.path.exists(file_path):
+        print(f"⚠️ Файл не найден локально: {file_path}")
+        return None
+
+    filename = os.path.basename(file_path)
+    print(f"⚙️ Загрузка картинки: {filename}")
+
+    # Попытка 1: Telegra.ph
+    print("   👉 Шаг 1: Пробуем загрузить на Telegra.ph...")
+    uploaded_url = await upload_to_telegraph(file_path)
+    if uploaded_url:
+        return uploaded_url
+
+    # Попытка 2: Catbox.moe (Резерв)
+    print("   ⚠️ Telegra.ph заблокировал запрос (CF 400/403). Включаем резервный Catbox.moe...")
+    uploaded_url = await upload_to_catbox(file_path)
+    if uploaded_url:
+        return uploaded_url
+
+    print("   ❌ Все облачные загрузчики завершились ошибкой.")
     return None
 
 async def transform_markdown(file_path):
     """
     Парсит Front Matter заметки Obsidian, загружает локальные изображения
-    на Telegra.ph для 100% доступности в Telegram Bot API (даже для draft: true),
-    и форматирует тело под Rich Markdown для Telegram API 10.1.
+    на внешние хостинги с каскадным отказом и форматирует тело под Rich Markdown.
     """
     with open(file_path, 'r', encoding='utf-8') as f:
         post = frontmatter.load(f)
@@ -83,7 +141,7 @@ async def transform_markdown(file_path):
     local_dir = os.path.dirname(file_path)
     replacements = {}
     
-    # 1. Обработка и загрузка обложки (Cover) на Telegraph
+    # 1. Обработка и загрузка обложки (Cover)
     cover_url = ""
     cover_data = post.get('cover', {})
     if cover_data and isinstance(cover_data, dict):
@@ -94,12 +152,11 @@ async def transform_markdown(file_path):
             else:
                 cover_img_clean = cover_img.lstrip("./").lstrip("/")
                 local_cover_path = os.path.join(local_dir, cover_img_clean)
-                print(f"⚙️ Найдена локальная обложка в Front Matter: {cover_img_clean}. Загружаем на Telegraph...")
-                uploaded_url = await upload_to_telegraph(local_cover_path)
+                uploaded_url = await upload_image_to_cloud(local_cover_path)
                 if uploaded_url:
                     cover_url = uploaded_url
                 else:
-                    # Резервный URL на случай сбоя
+                    # Резервный URL на твоем сайте на случай полного сбоя сети
                     cover_url = f"{DOMAIN}/{dirname}/{cover_img_clean}"
                     
     # 2. Поиск и асинхронная загрузка локальных картинок из тела поста
@@ -112,15 +169,14 @@ async def transform_markdown(file_path):
         if img_path not in replacements:
             img_path_clean = img_path.lstrip("./").lstrip("/")
             local_img_path = os.path.join(local_dir, img_path_clean)
-            print(f"⚙️ Найдена локальная картинка в тексте: {img_path_clean}. Загружаем на Telegraph...")
-            uploaded_url = await upload_to_telegraph(local_img_path)
+            uploaded_url = await upload_image_to_cloud(local_img_path)
             if uploaded_url:
                 replacements[img_path] = uploaded_url
             else:
-                # Резервный URL
+                # Резервный URL на твоем сайте
                 replacements[img_path] = f"{DOMAIN}/{dirname}/{img_path_clean}"
                 
-    # Заменяем локальные пути в Markdown тексте на ссылки Telegra.ph
+    # Заменяем локальные пути в Markdown тексте на облачные ссылки
     def replace_image_links(match):
         alt_text = match.group(1)
         img_path = match.group(2)
