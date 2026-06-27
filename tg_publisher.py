@@ -3,6 +3,8 @@ import sys
 import asyncio
 import frontmatter
 import re
+import aiohttp
+import mimetypes
 from aiogram import Bot
 from aiogram.types import InputRichMessage
 
@@ -13,10 +15,56 @@ RHASH = "5dda3eb0d9e2b1"
 # Служебный маркер для Instant View
 TG_MARKER = "<!--tg-->"
 
+async def upload_to_telegraph(file_path: str) -> str:
+    """
+    Загружает локальный файл на сервер Telegra.ph и возвращает прямой URL.
+    """
+    if not os.path.exists(file_path):
+        print(f"⚠️ Файл не найден локально: {file_path}")
+        return None
+
+    url = "https://telegra.ph/upload"
+    mime_type, _ = mimetypes.guess_type(file_path)
+    mime_type = mime_type or "image/jpeg"
+
+    data = aiohttp.FormData()
+    try:
+        with open(file_path, "rb") as f:
+            data.add_field(
+                "file",
+                f.read(),
+                filename=os.path.basename(file_path),
+                content_type=mime_type
+            )
+    except Exception as e:
+        print(f"❌ Ошибка чтения файла {file_path}: {e}")
+        return None
+
+    headers = {
+        "Origin": "https://telegra.ph",
+        "Referer": "https://telegra.ph/",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+    }
+
+    async with aiohttp.ClientSession() as session:
+        try:
+            async with session.post(url, data=data, headers=headers) as resp:
+                if resp.status == 200:
+                    result = await resp.json()
+                    if isinstance(result, list) and len(result) > 0:
+                        img_path = result[0].get("src")
+                        full_url = f"https://telegra.ph{img_path}"
+                        print(f"   🔥 Успешно загружено на Telegraph: {full_url}")
+                        return full_url
+                print(f"❌ Ошибка загрузки на Telegraph (Status {resp.status})")
+        except Exception as e:
+            print(f"❌ Исключение при загрузке на Telegraph: {e}")
+    return None
+
 async def transform_markdown(file_path):
     """
-    Парсит Front Matter заметки Obsidian, преобразует относительные пути
-    изображений в абсолютные URL сайта с учетом структуры Page Bundles
+    Парсит Front Matter заметки Obsidian, загружает локальные изображения
+    на Telegra.ph для 100% доступности в Telegram Bot API (даже для draft: true),
     и форматирует тело под Rich Markdown для Telegram API 10.1.
     """
     with open(file_path, 'r', encoding='utf-8') as f:
@@ -32,91 +80,73 @@ async def transform_markdown(file_path):
         norm_path = norm_path[len("content/"):]
     dirname = os.path.dirname(norm_path)  # Например: "posts/20260619-test-phone"
     
-    def make_url_absolute(url_path):
-        """Преобразует любой локальный путь к файлу в полный URL на сайте."""
-        url_path = url_path.strip()
-        # Если это уже полная ссылка, e-mail или якорь, не трогаем её
-        if url_path.startswith(('http://', 'https://', 'mailto:', 'tel:', '#')):
-            return url_path
-        # Если ссылка начинается со слэша, она идет от корня сайта (старая логика static/images)
-        if url_path.startswith('/'):
-            return f"{DOMAIN}{url_path}"
-        # Иначе ссылка относительная (новая логика Page Bundles)
-        if dirname:
-            return f"{DOMAIN}/{dirname}/{url_path}"
-        return f"{DOMAIN}/{url_path}"
-        
-    # 1. Автоматическая трансформация всех относительных/абсолютных изображений и ссылок в тексте поста
-    # Картинки: ![alt](url)
-    content = re.sub(r'!\[(.*?)\]\((.*?)\)', lambda m: f"![{m.group(1)}]({make_url_absolute(m.group(2))})", content)
-    # Обычные ссылки (исключаем картинки через negative lookbehind): [text](url)
-    content = re.sub(r'(?<!!)\[(.*?)\]\((.*?)\)', lambda m: f"[{m.group(1)}]({make_url_absolute(m.group(2))})", content)
-    # HTML-атрибуты картинок src="..."
-    content = re.sub(r'src=["\'](.*?)["\']', lambda m: f'src="{make_url_absolute(m.group(1))}"', content)
+    local_dir = os.path.dirname(file_path)
+    replacements = {}
     
-    # 2. Фикс одиночных переносов строк из Obsidian (Спецификация GFM Markdown)
-    # Предотвращает склеивание строк в Telegram при мягких переносах.
-    lines = content.split('\n')
-    for i in range(len(lines)):
-        line = lines[i].strip()
-        if not line:
-            continue
-        # Пропускаем списки, заголовки, блоки цитат, таблиц и кода
-        if line.startswith(('-', '*', '+', '#', '>', '|', '```')) or (line[0].isdigit() and line[1:3] == '. '):
-            continue
-        if i + 1 < len(lines):
-            next_line = lines[i+1].strip()
-            if next_line and not next_line.startswith(('-', '*', '+', '#', '>', '|', '```')) and not (next_line[0].isdigit() and next_line[1:3] == '. '):
-                lines[i] = lines[i] + "  "  # Добавляем два пробела в конце строки по спецификации Markdown
-    content = '\n'.join(lines)
-
-    # 3. Извлечение и валидация обложки (cover.image) из Front Matter
-    cover_data = post.get('cover', {})
+    # 1. Обработка и загрузка обложки (Cover) на Telegraph
     cover_url = ""
-    if isinstance(cover_data, dict):
-        cover_image = cover_data.get('image', '')
-        if cover_image:
-            cover_url = make_url_absolute(cover_image)
-
-    # 4. Формирование тела сообщения
-    body = content.strip()
+    cover_data = post.get('cover', {})
+    if cover_data and isinstance(cover_data, dict):
+        cover_img = cover_data.get('image', '')
+        if cover_img:
+            if cover_img.startswith(('http://', 'https://')):
+                cover_url = cover_img
+            else:
+                cover_img_clean = cover_img.lstrip("./").lstrip("/")
+                local_cover_path = os.path.join(local_dir, cover_img_clean)
+                print(f"⚙️ Найдена локальная обложка в Front Matter: {cover_img_clean}. Загружаем на Telegraph...")
+                uploaded_url = await upload_to_telegraph(local_cover_path)
+                if uploaded_url:
+                    cover_url = uploaded_url
+                else:
+                    # Резервный URL на случай сбоя
+                    cover_url = f"{DOMAIN}/{dirname}/{cover_img_clean}"
+                    
+    # 2. Поиск и асинхронная загрузка локальных картинок из тела поста
+    img_pattern = re.compile(r'!\[(.*?)\]\((.*?)\)')
+    matches = img_pattern.findall(content)
     
-    # Вычисляем слаг поста для сборки Instant View ссылки
-    if "index.md" in file_path:
-        post_slug = os.path.basename(os.path.dirname(file_path))
-    else:
-        post_slug = os.path.splitext(os.path.basename(file_path))[0]
+    for alt_text, img_path in matches:
+        if img_path.startswith(('http://', 'https://')):
+            continue
+        if img_path not in replacements:
+            img_path_clean = img_path.lstrip("./").lstrip("/")
+            local_img_path = os.path.join(local_dir, img_path_clean)
+            print(f"⚙️ Найдена локальная картинка в тексте: {img_path_clean}. Загружаем на Telegraph...")
+            uploaded_url = await upload_to_telegraph(local_img_path)
+            if uploaded_url:
+                replacements[img_path] = uploaded_url
+            else:
+                # Резервный URL
+                replacements[img_path] = f"{DOMAIN}/{dirname}/{img_path_clean}"
+                
+    # Заменяем локальные пути в Markdown тексте на ссылки Telegra.ph
+    def replace_image_links(match):
+        alt_text = match.group(1)
+        img_path = match.group(2)
+        if img_path in replacements:
+            return f"![{alt_text}]({replacements[img_path]})"
+        return match.group(0)
         
-    iv_link = f"https://t.me/iv?url={DOMAIN}/posts/{post_slug}/&rhash={RHASH}"
-
-    # 5. Сборка сообщения в зависимости от режима публикации (tg_mode)
-    if tg_mode == 'iv_only':
-        # Отправляем только нативный красивый заголовок со ссылкой на Instant View
-        body = f"# [{title}]({iv_link})"
-    else:
-        # Нативно встраиваем обложку в самое начало текста
-        if cover_url:
-            body = f"![Обложка]({cover_url})\n\n" + body
-            
-        # Добавляем нативный заголовок H1 (Telegram API 10.1 отрендерит его крупно и жирно)
-        if title and not body.startswith(f"# "):
-            body = f"# {title}\n\n" + body
-            
-        # Добавляем ссылку Instant View в конец для гибридного режима
-        if tg_mode == 'hybrid':
-            body += f"\n\n[Читать в Instant View]({iv_link})"
-            
-    # Добавляем невидимый HTML-комментарий для связки с IV правилами
-    body = TG_MARKER + "\n" + body
+    content = img_pattern.sub(replace_image_links, content)
     
-    return body
-
-async def main():
-    if len(sys.argv) < 2:
-        print("Использование: python tg_publisher.py <путь_к_файлу.md>")
-        sys.exit(1)
+    # Формируем итоговое сообщение для Telegram
+    header = f"# {title}\n\n"
+    
+    post_url = f"{DOMAIN}/{dirname}/"
+    iv_url = f"https://t.me/iv?url={post_url}&rhash={RHASH}"
+    
+    # Встраиваем обложку в начало как невидимую ссылку
+    preview_link = ""
+    if cover_url:
+        preview_link = f"[\u00AD]({cover_url})"
+    else:
+        preview_link = f"[\u00AD]({iv_url})"
         
-    file_path = sys.argv[1]
+    rich_text = f"{preview_link}{header}{content}"
+    return rich_text
+
+async def main(file_path):
     if not os.path.exists(file_path):
         print(f"Ошибка: Файл {file_path} не найден.")
         sys.exit(1)
@@ -149,12 +179,12 @@ async def main():
         print(f"Критическая ошибка при отправке через sendRichMessage: {e}")
         print("\n=== ПОЛНЫЙ СТЕК ВЫЗОВОВ (TRACEBACK) ===")
         traceback.print_exc()
-        print("=======================================\n")
         sys.exit(1)
     finally:
         await bot.session.close()
 
 if __name__ == "__main__":
-    if sys.platform == 'win32':
-        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-    asyncio.run(main())
+    if len(sys.argv) < 2:
+        print("Использование: python tg_publisher.py <путь_к_md_файлу>")
+        sys.exit(1)
+    asyncio.run(main(sys.argv[1]))
