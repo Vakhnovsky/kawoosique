@@ -1,7 +1,7 @@
 ---
-title: Заметка c шапкой-картинкой
-date: 2026-06-26
-draft: false
+title: Заметка без шапкой-картинкой
+date: 2026-06-27
+draft: true
 tg_mode: rich_only
 tags:
   - start
@@ -10,6 +10,7 @@ tags:
 categories:
   - рассуждения
   - всячина
+
 ---
 
 ## Введение
@@ -22,9 +23,9 @@ $$
 E=MC^2
 $$
 
-<footer>Footer text</footer>
-
 Вставка картинки по ссылке
 
 ![alt](08.jpg)
+
+<footer>Footer text</footer>
 
