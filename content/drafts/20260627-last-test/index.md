@@ -45,3 +45,5 @@ epub-учебник/
 │   └── chapter04-13.xhtml   [создаём по одной]
 └── mimetype                  [готов, не трогать]
 ```
+
+![[tastefully.jpg]]

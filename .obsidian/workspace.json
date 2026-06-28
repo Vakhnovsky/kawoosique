@@ -55,21 +55,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/drafts/20260619-test-phone.md",
-                "mode": "source",
-                "source": true
-              },
-              "icon": "lucide-file",
-              "title": "20260619-test-phone"
-            }
-          },
-          {
-            "id": "8aa295a1f7b357a7",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "content/posts/20260627-last-test/index.md",
+                "file": "content/posts/20260619-intro/index.md",
                 "mode": "source",
                 "source": true
               },
@@ -78,7 +64,7 @@
             }
           }
         ],
-        "currentTab": 4
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -238,51 +224,53 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "8aa295a1f7b357a7",
+  "active": "80933bfd2231cdce",
   "lastOpenFiles": [
-    "content/posts/20260626-no-head/index.md",
-    "content/posts/20260626-no-head/09.jpg",
-    "_templates/TG-HUGO-COVER.md",
-    "content/posts/20260627-last-test/index.md",
-    "content/posts/20260627-last-test/tastefully.jpg",
-    "content/posts/20260627-last-test/korea.jpg",
-    "content/posts/20260627-last-test/zasedanie.jpg",
-    "content/posts/20260627-last-test/Прозаседавшиеся.jpg",
-    "content/posts/20260627-last-test/w700_54765748.jpg",
-    "content/posts/20260627-last-test",
+    "content/drafts/test-rich.md",
+    "content/drafts/markdown-test/index.md",
+    "content/drafts/markdown-test/03.jpg",
+    "content/drafts/markdown-test/02.jpg",
+    "content/drafts/markdown-test/01.jpg",
+    "content/drafts/markdown-test",
+    "content/drafts/20260627-last-test/tastefully.jpg",
+    "content/drafts/20260627-last-test/zasedanie.jpg",
+    "content/drafts/20260627-last-test/index.md",
+    "content/drafts/20260627-last-test",
+    "content/drafts/20260627-final-test/seul.jpg",
+    "content/drafts/20260627-final-test/pervyj-moroz1.jpg",
+    "content/drafts/20260627-final-test/poster.jpg",
+    "content/drafts/20260627-final-test/panic.jpg",
+    "content/drafts/20260627-final-test/index.md",
+    "content/drafts/20260627-final-test/history.png",
+    "content/drafts/20260627-final-test",
+    "content/drafts/20260626-no-head/index.md",
+    "content/drafts/20260626-no-head",
+    "content/drafts/20260619-test-phone/index.md",
+    "content/drafts/20260619-test-phone",
+    "content/drafts/test-phone.md",
     "content/posts/20260627-final-test/index.md",
-    "content/posts/20260627-final-test/index2.md",
     "content/posts/20260619-test-phone/index.md",
+    "content/drafts/markdown-test.md",
+    "content/drafts/20260619-test-phone.md",
     "content/posts/markdown-test/index.md",
+    "content/posts/20260627-last-test/index.md",
+    "content/posts/20260626-no-head/index.md",
+    "content/posts/20260619-intro/index.md",
+    "content/posts/markdown-test",
+    "content/posts/20260627-final-test",
+    "content/posts/20260627-last-test",
+    "content/posts/20260626-no-head",
+    "content/posts/20260619-test-phone",
+    "content/drafts/tz.md",
+    "_templates/TG-HUGO-COVER.md",
+    "content/posts/20260627-final-test/index2.md",
     "_templates/TG-COVER.md",
     "_templates/TG-only.md",
-    "content/posts/20260626-no-head/08.jpg",
-    "content/posts/20260626-no-head",
-    "content/drafts/20260619-test-phone.md",
     "content/posts/Без названия 2.md",
     "content/posts/Без названия 1.md",
     "content/posts/Без названия.md",
-    "content/posts/20260619-intro/index.md",
-    "content/posts/20260619-intro/avatar-coffee.png",
     "content/drafts/coffee_02.md",
     "content/posts/markdown-test/markdown-test.md",
-    "content/posts/markdown-test/03.jpg",
-    "content/posts/markdown-test/02.jpg",
-    "content/posts/markdown-test",
-    "content/posts/markdown-test.md",
-    "content/drafts/coffee_09.md",
-    "content/drafts/coffee_10.md",
-    "content/drafts/coffee_04.md",
-    "content/drafts/coffee_03.md",
-    "content/posts/20260619-intro.md",
-    "content/posts/20260619-test-phone.md",
-    "content/drafts/test-simple.md",
-    "content/drafts/test-rich.md",
-    "content/drafts",
-    "public/assets/css/stylesheet.9b42e0dfafec85c2898187a3cbfdceede1b8e525bda08805d4678a9cb316a44b.css",
-    "public/assets/css/stylesheet.3ef4ed4ec8b3093f7c208c10f14de59fae2e061815a79ca018b84d8b81371581.css",
-    "public/assets/css/stylesheet.748837e4511573780255fa0cbf86df41681cb6ecdb7d9a1fa6c1917b81928da7.css",
-    "static/images",
-    "_templates"
+    "content/posts/markdown-test.md"
   ]
 }
