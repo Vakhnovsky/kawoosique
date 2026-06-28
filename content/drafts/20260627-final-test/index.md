@@ -1,7 +1,7 @@
 ---
 title: Последний тест с картинками перед финалочкой
 date: 2026-06-27
-draft: false
+draft: true
 tg_mode: rich_only
 tags:
   - test

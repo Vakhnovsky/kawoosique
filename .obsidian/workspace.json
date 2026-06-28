@@ -55,7 +55,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/posts/20260619-intro/index.md",
+                "file": "content/drafts/20260627-final-test/index.md",
                 "mode": "source",
                 "source": true
               },
@@ -224,8 +224,9 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "795f16c49613f447",
+  "active": "80933bfd2231cdce",
   "lastOpenFiles": [
+    "content/posts/20260619-intro/index.md",
     "content/drafts/20260627-final-test/seul.jpg",
     "content/drafts/20260627-final-test/poster.jpg",
     "content/drafts/20260627-final-test/pervyj-moroz1.jpg",
@@ -255,7 +256,6 @@
     "content/posts/markdown-test/index.md",
     "content/posts/20260627-last-test/index.md",
     "content/posts/20260626-no-head/index.md",
-    "content/posts/20260619-intro/index.md",
     "content/posts/markdown-test",
     "content/posts/20260627-final-test",
     "content/posts/20260627-last-test",
