@@ -224,8 +224,15 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "80933bfd2231cdce",
+  "active": "795f16c49613f447",
   "lastOpenFiles": [
+    "content/drafts/20260627-final-test/seul.jpg",
+    "content/drafts/20260627-final-test/poster.jpg",
+    "content/drafts/20260627-final-test/pervyj-moroz1.jpg",
+    "content/drafts/20260627-final-test/panic.jpg",
+    "content/drafts/20260627-final-test/index.md",
+    "content/drafts/20260627-final-test/history.png",
+    "content/drafts/20260627-final-test",
     "content/drafts/test-rich.md",
     "content/drafts/markdown-test/index.md",
     "content/drafts/markdown-test/03.jpg",
@@ -236,13 +243,6 @@
     "content/drafts/20260627-last-test/zasedanie.jpg",
     "content/drafts/20260627-last-test/index.md",
     "content/drafts/20260627-last-test",
-    "content/drafts/20260627-final-test/seul.jpg",
-    "content/drafts/20260627-final-test/pervyj-moroz1.jpg",
-    "content/drafts/20260627-final-test/poster.jpg",
-    "content/drafts/20260627-final-test/panic.jpg",
-    "content/drafts/20260627-final-test/index.md",
-    "content/drafts/20260627-final-test/history.png",
-    "content/drafts/20260627-final-test",
     "content/drafts/20260626-no-head/index.md",
     "content/drafts/20260626-no-head",
     "content/drafts/20260619-test-phone/index.md",
@@ -270,7 +270,6 @@
     "content/posts/Без названия 1.md",
     "content/posts/Без названия.md",
     "content/drafts/coffee_02.md",
-    "content/posts/markdown-test/markdown-test.md",
-    "content/posts/markdown-test.md"
+    "content/posts/markdown-test/markdown-test.md"
   ]
 }
