@@ -55,7 +55,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/drafts/20260627-final-test/index.md",
+                "file": "content/drafts/20260628-vs-rich/index.md",
                 "mode": "source",
                 "source": true
               },
@@ -227,11 +227,18 @@
   "active": "80933bfd2231cdce",
   "lastOpenFiles": [
     "content/posts/20260619-intro/index.md",
+    "_templates/ФОРМАТИРОВАНИЕ MARKDOWN.md",
+    "content/drafts/20260628-vs-rich/index.md",
+    "content/drafts/20260628-vs-rich/vibecoding.jpg",
+    "_templates/TG-only.md",
+    "content/drafts/20260628-vs-rich",
+    "_templates/TG-COVER.md",
+    "_templates/TG-HUGO-COVER.md",
+    "content/drafts/20260627-final-test/index.md",
     "content/drafts/20260627-final-test/seul.jpg",
     "content/drafts/20260627-final-test/poster.jpg",
     "content/drafts/20260627-final-test/pervyj-moroz1.jpg",
     "content/drafts/20260627-final-test/panic.jpg",
-    "content/drafts/20260627-final-test/index.md",
     "content/drafts/20260627-final-test/history.png",
     "content/drafts/20260627-final-test",
     "content/drafts/test-rich.md",
@@ -241,7 +248,6 @@
     "content/drafts/markdown-test/01.jpg",
     "content/drafts/markdown-test",
     "content/drafts/20260627-last-test/tastefully.jpg",
-    "content/drafts/20260627-last-test/zasedanie.jpg",
     "content/drafts/20260627-last-test/index.md",
     "content/drafts/20260627-last-test",
     "content/drafts/20260626-no-head/index.md",
@@ -260,16 +266,11 @@
     "content/posts/20260627-final-test",
     "content/posts/20260627-last-test",
     "content/posts/20260626-no-head",
-    "content/posts/20260619-test-phone",
     "content/drafts/tz.md",
-    "_templates/TG-HUGO-COVER.md",
     "content/posts/20260627-final-test/index2.md",
-    "_templates/TG-COVER.md",
-    "_templates/TG-only.md",
     "content/posts/Без названия 2.md",
     "content/posts/Без названия 1.md",
     "content/posts/Без названия.md",
-    "content/drafts/coffee_02.md",
-    "content/posts/markdown-test/markdown-test.md"
+    "content/drafts/coffee_02.md"
   ]
 }

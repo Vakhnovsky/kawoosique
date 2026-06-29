@@ -1,0 +1,14 @@
+Сворачиваемый текст под спойлер:
+```
+<details open><summary>Summary with **bold text**</summary>
+
+### Details heading
+- List item with _italic text_
+- List item with <tg-spoiler>spoiler</tg-spoiler>
+
+</details>
+```
+Или проще:
+```
+<details open><summary>Title</summary>Content</details>
+```
