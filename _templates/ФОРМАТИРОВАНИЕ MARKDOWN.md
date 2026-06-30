@@ -12,3 +12,5 @@
 ```
 <details open><summary>Title</summary>Content</details>
 ```
+Кастомный эмоджи
+![👍](tg://emoji?id=5316996360841474316)
