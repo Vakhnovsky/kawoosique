@@ -12,5 +12,6 @@
   ],
   "newFileLocation": "folder",
   "newFileFolderPath": "content/drafts",
-  "attachmentFolderPath": "./"
+  "attachmentFolderPath": "./",
+  "alwaysUpdateLinks": true
 }
